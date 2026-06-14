@@ -1,0 +1,4584 @@
+:root {
+  color-scheme: light;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+  --green-900: #153d2a;
+  --green-700: #246b45;
+  --green-500: #45a86b;
+  --green-100: #e5f5df;
+  --blue-500: #3d92c8;
+  --blue-100: #dff0fb;
+  --yellow-200: #fff0b8;
+  --yellow-100: #fff8d8;
+  --soil-dark: #714a2b;
+  --soil-mid: #a76f3b;
+  --soil-light: #c89252;
+  --danger: #c45a3f;
+  --panel: rgba(255, 255, 255, 0.9);
+  --shadow: 0 18px 45px rgba(35, 83, 55, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #173525;
+  background:
+    linear-gradient(135deg, rgba(229, 245, 223, 0.96), rgba(223, 240, 251, 0.92)),
+    repeating-linear-gradient(90deg, rgba(64, 135, 75, 0.08) 0 2px, transparent 2px 28px);
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.content-page,
+.simulator-page,
+.page-grid {
+  width: min(1440px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 0 28px;
+}
+
+.hero-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 92vh;
+  border-bottom: 1px solid rgba(49, 113, 74, 0.14);
+  background: linear-gradient(135deg, #eef8e8, #dff0fb);
+  box-shadow: 0 20px 48px rgba(35, 83, 55, 0.14);
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 50%;
+  animation: heroPhotoIn 1.1s ease both;
+}
+
+.hero-photo-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(248, 250, 231, 0.94) 0%, rgba(238, 248, 232, 0.84) 36%, rgba(238, 248, 232, 0.42) 61%, rgba(238, 248, 232, 0.08) 100%),
+    linear-gradient(180deg, rgba(217, 241, 248, 0.28) 0%, rgba(246, 240, 186, 0.1) 52%, rgba(36, 98, 54, 0.24) 100%);
+}
+
+.geo-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.22;
+  background:
+    linear-gradient(rgba(38, 112, 75, 0.38) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 112, 75, 0.3) 1px, transparent 1px);
+  background-size: 74px 74px;
+  mask-image: linear-gradient(90deg, transparent 0%, black 16%, black 72%, transparent 100%);
+  animation: gridBreathe 6s ease-in-out infinite;
+}
+
+.geo-orbit {
+  position: absolute;
+  right: 6vw;
+  top: 8vh;
+  z-index: -1;
+  width: min(38vw, 560px);
+  aspect-ratio: 1;
+  opacity: 0.34;
+  border: 2px solid rgba(45, 112, 84, 0.28);
+  border-radius: 50%;
+}
+
+.geo-orbit span {
+  position: absolute;
+  inset: 13%;
+  border: 2px dashed rgba(42, 118, 91, 0.24);
+  border-radius: 50%;
+}
+
+.geo-orbit span:nth-child(2) {
+  inset: 34%;
+  border-style: solid;
+}
+
+.geo-orbit span:nth-child(3) {
+  inset: -7% 28% 54% -8%;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0 0 2px;
+  transform: rotate(22deg);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(720px, calc(100% - 48px));
+  padding: clamp(72px, 10vh, 112px) 0 160px;
+  margin-left: clamp(28px, 7vw, 96px);
+  animation: heroCopyIn 0.85s ease both;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  color: #247047;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.hero-kicker span {
+  width: 34px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f8c59, #e3b946);
+}
+
+.hero-content h1 {
+  display: grid;
+  gap: 2px;
+  margin: 0 0 22px;
+  color: #103d29;
+  font-size: clamp(3rem, 7.3vw, 6.7rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.3);
+}
+
+.hero-subtitle {
+  max-width: 620px;
+  margin: 0 0 30px;
+  color: #2f5d43;
+  font-size: clamp(1.12rem, 2.1vw, 1.65rem);
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.hero-primary {
+  min-height: 56px;
+  padding: 15px 26px;
+  font-size: 1.05rem;
+}
+
+.hero-secondary {
+  min-height: 56px;
+  padding: 14px 20px;
+  border: 1px solid rgba(38, 111, 73, 0.24);
+  border-radius: 8px;
+  color: #246b45;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 22px rgba(37, 120, 79, 0.1);
+  font-weight: 900;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.hero-secondary:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 26px rgba(37, 120, 79, 0.16);
+}
+
+.hero-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 660px;
+  margin-top: 34px;
+}
+
+.hero-highlights article {
+  padding: 12px 14px;
+  border: 1px solid rgba(49, 113, 74, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 24px rgba(37, 84, 58, 0.1);
+}
+
+.hero-highlights strong,
+.hero-highlights span {
+  display: block;
+}
+
+.hero-highlights strong {
+  color: #163f2b;
+  font-size: 0.98rem;
+}
+
+.hero-highlights span {
+  margin-top: 4px;
+  color: #4c6b56;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.hero-field-lines {
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  bottom: -5%;
+  z-index: 1;
+  height: 22%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 0.9fr 1.15fr;
+  opacity: 0.5;
+  transform: skewY(-2.5deg);
+  pointer-events: none;
+}
+
+.hero-field-lines span {
+  border: 2px solid rgba(27, 89, 48, 0.22);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 2px, transparent 2px 42px),
+    linear-gradient(180deg, rgba(96, 156, 70, 0.14), rgba(41, 112, 55, 0.36));
+}
+
+@keyframes heroCopyIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroPhotoIn {
+  from {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gridBreathe {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.26; }
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2b7450;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 14px;
+  color: var(--green-900);
+  font-size: clamp(2rem, 5vw, 4.7rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 14px;
+  font-size: 1.18rem;
+  color: var(--green-900);
+}
+
+h3 {
+  margin-bottom: 10px;
+  color: #315b40;
+}
+
+.subtitle {
+  max-width: 560px;
+  margin-bottom: 30px;
+  color: #325643;
+  font-size: 1.25rem;
+  line-height: 1.7;
+}
+
+.primary-button,
+.ghost-button,
+.small-button {
+  border-radius: 8px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.primary-button {
+  padding: 13px 22px;
+  color: white;
+  background: linear-gradient(135deg, #25784f, #4ca96f);
+  box-shadow: 0 10px 22px rgba(37, 120, 79, 0.25);
+  font-weight: 800;
+}
+
+.ghost-button {
+  padding: 10px 16px;
+  color: var(--green-700);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(41, 107, 71, 0.2);
+  font-weight: 700;
+}
+
+.small-button {
+  width: 100%;
+  padding: 10px 14px;
+  color: #1e5b3a;
+  background: #e6f5df;
+  font-weight: 800;
+}
+
+.primary-button:hover,
+.ghost-button:hover,
+.small-button:hover,
+.choice:hover,
+.region-pin:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(42, 95, 58, 0.16);
+}
+
+.hero-farmland {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: -3%;
+  height: 32%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  transform: skewY(-3deg);
+}
+
+.hero-farmland span {
+  border: 2px solid rgba(28, 96, 48, 0.25);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, rgba(115, 173, 77, 0.6), rgba(95, 142, 59, 0.84));
+}
+
+.map-rings {
+  position: absolute;
+  inset: 9% 9% auto auto;
+  width: 38%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(61, 146, 200, 0.22);
+}
+
+.map-rings::before,
+.map-rings::after {
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border: 2px dashed rgba(36, 107, 69, 0.2);
+  border-radius: 50%;
+}
+
+.map-rings::after {
+  inset: 31%;
+  border-style: solid;
+}
+
+.goal-panel,
+.profile-main,
+.side-panel,
+.ai-panel,
+.report-summary,
+.report-charts,
+.report-table {
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.goal-panel {
+  align-self: center;
+  padding: 24px;
+}
+
+.home-page > .goal-panel {
+  width: min(1120px, calc(100vw - 32px));
+  margin: 22px auto 0;
+}
+
+.goal-panel ul,
+.diagnosis-list {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+
+.goal-panel li + li,
+.diagnosis-list li + li {
+  margin-top: 8px;
+}
+
+.page-header,
+.sim-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.page-header h1,
+.sim-header h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.page-header p,
+.sim-header p {
+  max-width: 840px;
+  color: #416350;
+  line-height: 1.7;
+}
+
+.image-select-intro,
+.feature-filter-panel {
+  margin-bottom: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(52, 118, 76, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 10px 26px rgba(42, 95, 58, 0.08);
+}
+
+.image-select-intro p,
+.feature-filter-panel p {
+  margin: 0;
+  color: #3f624c;
+  line-height: 1.7;
+}
+
+.feature-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.feature-filter {
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid rgba(52, 118, 76, 0.16);
+  border-radius: 999px;
+  color: #2d5b3e;
+  background: #f4faef;
+  font-weight: 800;
+}
+
+.feature-filter.active {
+  color: white;
+  background: linear-gradient(135deg, #28794f, #58ad6d);
+  box-shadow: 0 8px 18px rgba(42, 95, 58, 0.18);
+}
+
+.region-image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.region-image-card {
+  position: relative;
+  display: flex;
+  min-height: 560px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid rgba(52, 118, 76, 0.12);
+  border-left: 8px solid var(--theme-color);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 28px rgba(42, 95, 58, 0.1);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.region-image-card:hover {
+  border-color: color-mix(in srgb, var(--theme-color) 70%, white);
+  box-shadow: 0 18px 36px rgba(42, 95, 58, 0.18);
+  transform: translateY(-2px);
+}
+
+.compare-check {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #284f38;
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(28, 72, 45, 0.12);
+}
+
+.compare-check input {
+  accent-color: var(--theme-color);
+}
+
+.region-image-wrap {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  background: #d8ead0;
+}
+
+.region-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.region-image-card:hover .region-image-wrap img {
+  transform: scale(1.05);
+}
+
+.region-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(20, 54, 32, 0.64));
+}
+
+.region-image-title {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  color: white;
+}
+
+.region-image-title h2 {
+  margin: 0 0 6px;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.region-image-title p {
+  display: inline-flex;
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--feature-color) 76%, rgba(255, 255, 255, 0.2));
+  font-weight: 900;
+}
+
+.region-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.feature-pill {
+  width: fit-content;
+  margin-bottom: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--feature-color) 22%, white);
+  color: #234331;
+  border: 1px solid color-mix(in srgb, var(--feature-color) 52%, white);
+  font-weight: 900;
+}
+
+.feature-mixed .feature-pill,
+.feature-mixed .region-image-title p {
+  background: linear-gradient(135deg, #29B6F6, #F6A13A);
+}
+
+.feature-irrigated .region-image-title p {
+  background: linear-gradient(135deg, #F6A13A, #26A69A);
+}
+
+.region-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.region-facts div {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.region-facts dt {
+  color: #5d7564;
+  font-weight: 800;
+}
+
+.region-facts dd {
+  margin: 0;
+  color: #1d3b2a;
+  line-height: 1.45;
+}
+
+.slope-text {
+  display: grid;
+  gap: 3px;
+}
+
+.slope-text strong {
+  color: #173d2a;
+  font-size: 0.98rem;
+}
+
+.slope-text small {
+  color: #5e7565;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.compact-tags {
+  margin: 4px 0 10px;
+}
+
+.teaching-question {
+  margin: auto 0 14px;
+  padding: 12px;
+  border-radius: 8px;
+  color: #385744;
+  background: #fff8d8;
+  line-height: 1.55;
+  opacity: 0.88;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.region-image-card:hover .teaching-question {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.select-region-button {
+  min-height: 42px;
+  border-radius: 8px;
+  color: white;
+  background: linear-gradient(135deg, var(--theme-color), var(--feature-color));
+  font-weight: 900;
+}
+
+.compare-dock {
+  position: sticky;
+  bottom: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 20px auto 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow);
+}
+
+.compare-dock span {
+  color: #315c40;
+  font-weight: 900;
+}
+
+.compare-dock button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.45);
+  opacity: 0.58;
+}
+
+.compare-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(19, 48, 32, 0.42);
+}
+
+.compare-panel {
+  width: min(1040px, 100%);
+  max-height: min(86vh, 900px);
+  overflow: auto;
+  padding: 22px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(20, 48, 33, 0.28);
+}
+
+.compare-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compare-column {
+  padding: 14px;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: #f8fbf3;
+}
+
+.compare-column img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.compare-column h3 {
+  margin: 12px 0;
+  font-size: 1.3rem;
+}
+
+.compare-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.compare-list div {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(52, 118, 76, 0.1);
+}
+
+.compare-list dt {
+  color: #5d7564;
+  font-weight: 900;
+}
+
+.compare-list dd {
+  margin: 0;
+  color: #203d2c;
+  line-height: 1.45;
+}
+
+.compare-summary {
+  margin: 16px 0 0;
+  padding: 14px;
+  border-radius: 8px;
+  color: #315c40;
+  background: #eaf6e3;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.profile-hero {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.profile-hero img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+}
+
+.profile-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 53, 33, 0.72), rgba(20, 53, 33, 0.18));
+}
+
+.profile-hero-content {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 30px;
+  color: white;
+}
+
+.profile-hero-content h1 {
+  color: white;
+}
+
+.profile-hero-content p {
+  font-size: 1.16rem;
+  font-weight: 800;
+}
+
+.ghost-button.light {
+  color: white;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.profile-question {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #fff8d8;
+}
+
+.profile-question p {
+  margin: 7px 0;
+  color: #244432;
+  font-weight: 900;
+}
+
+.profile-question span {
+  color: #48624f;
+  line-height: 1.7;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.region-layout {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.1fr) minmax(460px, 1fr);
+  gap: 18px;
+}
+
+.distribution-layout {
+  grid-template-columns: minmax(720px, 1.55fr) minmax(360px, 0.75fr);
+  align-items: start;
+}
+
+.farmland-map-card {
+  position: sticky;
+  top: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.map-title-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(52, 118, 76, 0.12);
+  background: linear-gradient(90deg, rgba(229, 245, 223, 0.96), rgba(223, 240, 251, 0.88));
+}
+
+.map-title-strip strong {
+  display: block;
+  color: var(--green-900);
+  font-size: 1.1rem;
+}
+
+.map-title-strip span {
+  color: #496852;
+  line-height: 1.5;
+}
+
+.farmland-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.farmland-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #375b43;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.farmland-legend i {
+  width: 16px;
+  height: 11px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.legend-dry {
+  background: #f28a2e;
+}
+
+.legend-irrigated {
+  background: #15ad63;
+}
+
+.legend-paddy {
+  background: #31b8e6;
+}
+
+.farmland-map-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1688 / 1266;
+  overflow: hidden;
+  background: #f7f4e9;
+}
+
+.landform-map-frame {
+  aspect-ratio: 1179 / 901;
+  background: #d7f0f2;
+}
+
+.farmland-distribution-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.farmland-svg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.farmland-region-path {
+  fill: var(--region-color);
+  fill-opacity: 0.18;
+  stroke: var(--region-color);
+  stroke-width: 4;
+  stroke-opacity: 0.5;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: fill-opacity 0.18s ease, stroke-opacity 0.18s ease, stroke-width 0.18s ease, filter 0.18s ease;
+}
+
+.farmland-region-path:hover,
+.farmland-region-path.hovered {
+  fill-opacity: 0.35;
+  stroke-opacity: 0.9;
+  stroke-width: 7;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--region-color) 58%, transparent));
+}
+
+.farmland-region-path.selected {
+  fill-opacity: 0.45;
+  stroke-opacity: 1;
+  stroke-width: 8;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--region-color) 70%, transparent));
+}
+
+.landform-region-path {
+  fill-opacity: 0.22;
+  stroke: var(--region-stroke);
+  stroke-width: 3.2;
+  stroke-opacity: 0.58;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: fill-opacity 0.18s ease, stroke-opacity 0.18s ease, stroke-width 0.18s ease, filter 0.18s ease;
+}
+
+.landform-region-path:hover,
+.landform-region-path.hovered {
+  fill-opacity: 0.35;
+  stroke-opacity: 0.92;
+  stroke-width: 5.6;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--region-color) 62%, transparent));
+}
+
+.landform-region-path.selected {
+  fill-opacity: 0.45;
+  stroke-opacity: 1;
+  stroke-width: 6.8;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--region-color) 70%, transparent));
+}
+
+.map-shape-label-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.shape-map-label {
+  position: absolute;
+  display: grid;
+  min-width: 138px;
+  gap: 2px;
+  padding: 7px 10px;
+  border: 1px solid rgba(27, 70, 45, 0.16);
+  border-left: 5px solid var(--region-color);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--green-900);
+  box-shadow: 0 8px 20px rgba(38, 84, 58, 0.12);
+  pointer-events: auto;
+  text-align: left;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.shape-map-label:hover,
+.shape-map-label.hovered,
+.shape-map-label.selected {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 26px rgba(24, 78, 44, 0.22);
+  transform: translate(-50%, -54%);
+}
+
+.shape-map-label strong {
+  font-size: 0.92rem;
+  line-height: 1.12;
+}
+
+.shape-map-label small {
+  color: #5d755f;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.landform-map-label {
+  min-width: 118px;
+  padding: 6px 9px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.landform-map-label strong {
+  font-size: 0.86rem;
+}
+
+.landform-map-label small {
+  font-size: 0.68rem;
+}
+
+.landform-map-legend {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 6px 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(37, 91, 62, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 24px rgba(35, 83, 55, 0.14);
+  color: #254836;
+  font-size: 0.82rem;
+}
+
+.landform-map-legend strong {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+}
+
+.landform-map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.landform-map-legend i {
+  width: 18px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.legend-oasis {
+  background: #2FBF71;
+}
+
+.legend-terrace {
+  background: repeating-linear-gradient(0deg, #C68642 0 4px, #8A5724 4px 6px);
+}
+
+.legend-mixed {
+  background: repeating-linear-gradient(45deg, #29B6F6 0 6px, #F6A13A 6px 12px);
+}
+
+.map-detail-panel {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.map-detail-panel h2 {
+  margin-bottom: 8px;
+  font-size: 1.55rem;
+}
+
+.map-detail-summary {
+  color: #45644f;
+  line-height: 1.7;
+}
+
+.map-detail-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.map-detail-list div {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(40, 100, 60, 0.1);
+}
+
+.map-detail-list dt {
+  color: #5e7b66;
+  font-weight: 800;
+}
+
+.map-detail-list dd {
+  margin: 0;
+  color: #213f2d;
+  line-height: 1.5;
+}
+
+.land-feature-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #173525;
+  background: color-mix(in srgb, var(--region-color) 24%, white);
+  border: 1px solid color-mix(in srgb, var(--region-color) 58%, white);
+  font-weight: 900;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.map-empty-state {
+  padding: 6px 0 10px;
+}
+
+.map-empty-state p {
+  color: #496852;
+  line-height: 1.7;
+}
+
+.quick-region-list {
+  display: grid;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(52, 118, 76, 0.12);
+}
+
+.quick-region-list h3 {
+  margin-bottom: 2px;
+}
+
+.quick-region {
+  display: grid;
+  gap: 2px;
+  padding: 9px 10px;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: #f7fbf2;
+  color: #294f37;
+  text-align: left;
+}
+
+.quick-region.active {
+  border-color: rgba(37, 120, 79, 0.4);
+  background: #e3f5df;
+  box-shadow: 0 8px 18px rgba(42, 95, 58, 0.1);
+}
+
+.quick-region span {
+  font-weight: 900;
+}
+
+.quick-region small {
+  color: #607a67;
+  font-weight: 700;
+}
+
+.map-interaction-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.map-region-zone {
+  position: absolute;
+  display: block;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--green-900);
+  transform: translate(-50%, -50%);
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.map-region-zone:hover,
+.map-region-zone:focus-visible {
+  z-index: 8;
+  transform: translate(-50%, -50%) scale(1.04);
+  outline: none;
+}
+
+.map-region-zone.dry:hover,
+.map-region-zone.dry:focus-visible {
+  border-color: rgba(242, 138, 46, 0.74);
+  background: rgba(242, 138, 46, 0.18);
+  box-shadow: 0 0 0 6px rgba(242, 138, 46, 0.1), inset 0 0 32px rgba(242, 138, 46, 0.16);
+}
+
+.map-region-zone.irrigated:hover,
+.map-region-zone.irrigated:focus-visible,
+.map-region-zone.mixed:hover,
+.map-region-zone.mixed:focus-visible {
+  border-color: rgba(21, 173, 99, 0.74);
+  background: rgba(21, 173, 99, 0.16);
+  box-shadow: 0 0 0 6px rgba(21, 173, 99, 0.1), inset 0 0 32px rgba(21, 173, 99, 0.15);
+}
+
+.map-region-zone.paddy:hover,
+.map-region-zone.paddy:focus-visible {
+  border-color: rgba(49, 184, 230, 0.76);
+  background: rgba(49, 184, 230, 0.17);
+  box-shadow: 0 0 0 6px rgba(49, 184, 230, 0.11), inset 0 0 32px rgba(49, 184, 230, 0.15);
+}
+
+.zone-pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f28a2e;
+  box-shadow: 0 0 0 5px rgba(242, 138, 46, 0.18);
+  transform: translate(-50%, -50%);
+}
+
+.map-region-zone.irrigated .zone-pulse,
+.map-region-zone.mixed .zone-pulse {
+  background: #15ad63;
+  box-shadow: 0 0 0 5px rgba(21, 173, 99, 0.17);
+}
+
+.map-region-zone.paddy .zone-pulse {
+  background: #31b8e6;
+  box-shadow: 0 0 0 5px rgba(49, 184, 230, 0.18);
+}
+
+.zone-label {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 22px);
+  display: grid;
+  min-width: 130px;
+  gap: 2px;
+  padding: 7px 10px;
+  border: 1px solid rgba(27, 70, 45, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(38, 84, 58, 0.15);
+  text-align: left;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.zone-label strong {
+  font-size: 0.95rem;
+  line-height: 1.1;
+}
+
+.zone-label small {
+  color: #5d755f;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.farmland-hotspot {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 190px;
+  padding: 7px 10px;
+  border: 1px solid rgba(27, 70, 45, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--green-900);
+  box-shadow: 0 8px 20px rgba(38, 84, 58, 0.18);
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.farmland-hotspot:hover,
+.farmland-hotspot:focus-visible {
+  z-index: 5;
+  background: #ffffff;
+  box-shadow: 0 12px 26px rgba(24, 78, 44, 0.26);
+  transform: translate(-50%, -54%) scale(1.03);
+  outline: 3px solid rgba(61, 146, 200, 0.28);
+}
+
+.hotspot-dot {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(242, 138, 46, 0.17);
+}
+
+.farmland-hotspot.dry .hotspot-dot {
+  background: #f28a2e;
+}
+
+.farmland-hotspot.irrigated .hotspot-dot {
+  background: #15ad63;
+  box-shadow: 0 0 0 5px rgba(21, 173, 99, 0.17);
+}
+
+.farmland-hotspot.paddy .hotspot-dot {
+  background: #31b8e6;
+  box-shadow: 0 0 0 5px rgba(49, 184, 230, 0.18);
+}
+
+.hotspot-label {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.hotspot-label strong {
+  font-size: 0.95rem;
+  line-height: 1.1;
+}
+
+.hotspot-label small {
+  color: #5d755f;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.compact-region-grid {
+  grid-template-columns: 1fr;
+}
+
+.compact-region-grid .region-card {
+  min-height: 166px;
+}
+
+.china-map-card {
+  position: sticky;
+  top: 16px;
+  min-height: 610px;
+  overflow: hidden;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(226, 243, 255, 0.8), rgba(255, 248, 216, 0.75)),
+    repeating-linear-gradient(0deg, rgba(45, 111, 67, 0.06) 0 1px, transparent 1px 36px),
+    repeating-linear-gradient(90deg, rgba(45, 111, 67, 0.06) 0 1px, transparent 1px 36px);
+  box-shadow: var(--shadow);
+}
+
+.china-silhouette {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 78%;
+  height: 72%;
+  border-radius: 46% 54% 42% 58% / 37% 46% 54% 63%;
+  background:
+    radial-gradient(circle at 72% 22%, #d5eccf 0 12%, transparent 13%),
+    radial-gradient(circle at 28% 33%, #f0e4a6 0 12%, transparent 13%),
+    linear-gradient(140deg, rgba(201, 225, 143, 0.88), rgba(123, 176, 98, 0.72));
+  border: 2px solid rgba(53, 110, 63, 0.25);
+  transform: rotate(-5deg);
+}
+
+.map-lines {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(25deg, transparent 20%, rgba(61, 146, 200, 0.18) 21%, transparent 22%),
+    linear-gradient(145deg, transparent 55%, rgba(61, 146, 200, 0.12) 56%, transparent 57%);
+}
+
+.region-pin {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 150px;
+  padding: 7px 10px;
+  color: var(--green-900);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(50, 99, 62, 0.18);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 8px 20px rgba(38, 84, 58, 0.15);
+}
+
+.region-pin span {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #e66b3d;
+  box-shadow: 0 0 0 4px rgba(230, 107, 61, 0.18);
+}
+
+.region-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.region-card {
+  display: flex;
+  min-height: 210px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px;
+  border: 1px solid rgba(52, 118, 76, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.87);
+  box-shadow: 0 10px 25px rgba(42, 95, 58, 0.08);
+}
+
+.region-card h2 {
+  margin-bottom: 8px;
+}
+
+.region-card p,
+.compact-text {
+  color: #45644f;
+  line-height: 1.6;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: #285139;
+  background: #ecf7e5;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.tag.danger {
+  color: #8a3529;
+  background: #ffe7dd;
+}
+
+.tag.good {
+  color: #1f6041;
+  background: #ddf4e5;
+}
+
+.tag-row.large .tag {
+  font-size: 0.95rem;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.profile-main,
+.report-summary,
+.report-charts,
+.report-table {
+  padding: 22px;
+}
+
+.profile-main.wide {
+  grid-column: 1 / -1;
+}
+
+.info-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.info-list div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(40, 100, 60, 0.1);
+}
+
+.info-list dt {
+  color: #5e7b66;
+  font-weight: 700;
+}
+
+.info-list dd {
+  margin: 0;
+  color: #213f2d;
+  line-height: 1.6;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.align-right {
+  display: block;
+  width: fit-content;
+  margin: 18px 0 0 auto;
+}
+
+.metric-bar + .metric-bar {
+  margin-top: 14px;
+}
+
+.metric-bar {
+  position: relative;
+}
+
+.metric-bar.has-reason {
+  cursor: help;
+}
+
+.metric-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  color: #375b43;
+  font-weight: 700;
+}
+
+.metric-value-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.metric-delta {
+  display: inline-flex;
+  align-items: center;
+  min-width: 38px;
+  justify-content: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  font-weight: 900;
+}
+
+.metric-delta.positive {
+  color: #157346;
+  background: #dcf4e5;
+}
+
+.metric-delta.negative {
+  color: #b2382a;
+  background: #ffe4dd;
+}
+
+.metric-delta.neutral {
+  color: #58705f;
+  background: #eef4eb;
+}
+
+.metric-reason {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: -10px;
+  z-index: 40;
+  display: none;
+  width: min(380px, 42vw);
+  padding: 13px 14px;
+  border: 1px solid rgba(42, 112, 76, 0.18);
+  border-radius: 8px;
+  color: #254333;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px rgba(28, 74, 48, 0.2);
+}
+
+.metric-reason::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-left: 1px solid rgba(42, 112, 76, 0.18);
+  border-bottom: 1px solid rgba(42, 112, 76, 0.18);
+  transform: rotate(45deg);
+}
+
+.metric-bar.has-reason:hover .metric-reason,
+.metric-bar.has-reason:focus-within .metric-reason {
+  display: block;
+}
+
+.metric-reason strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--green-900);
+  font-size: 0.95rem;
+}
+
+.metric-reason ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.metric-reason li {
+  color: #45634f;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.metric-reason li + li {
+  margin-top: 5px;
+}
+
+.bar-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(65, 122, 82, 0.14);
+}
+
+.bar-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #62a85e, #56b8c0);
+}
+
+.simulator-page {
+  min-height: 100vh;
+}
+
+.sim-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(520px, 1.55fr) minmax(280px, 0.8fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.side-panel,
+.ai-panel {
+  padding: 18px;
+}
+
+.risk-box,
+.event-card {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(255, 248, 216, 0.88);
+  border: 1px solid rgba(187, 142, 55, 0.24);
+}
+
+.risk-box p {
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+
+.farm-stage {
+  min-height: 620px;
+}
+
+.stage-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: #315c40;
+  font-weight: 800;
+}
+
+.farm-canvas {
+  position: relative;
+  overflow: hidden;
+  min-height: 560px;
+  border-radius: 8px;
+  background: linear-gradient(#cfeefa 0 34%, #d6eab6 34% 46%, #946033 46% 100%);
+  box-shadow: var(--shadow);
+}
+
+.farm-canvas-with-background {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background: #eef6ec;
+}
+
+.farm-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  animation: farmBackgroundIn 0.42s ease both;
+}
+
+.farm-effects-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sky-band {
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: linear-gradient(180deg, rgba(179, 226, 247, 0.85), rgba(244, 248, 214, 0.7));
+}
+
+.sun {
+  position: absolute;
+  top: 12%;
+  right: 13%;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #ffd96b;
+  box-shadow: 0 0 30px rgba(255, 207, 78, 0.45);
+}
+
+.cloud {
+  position: absolute;
+  width: 88px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.cloud::before {
+  left: 14px;
+}
+
+.cloud::after {
+  right: 16px;
+}
+
+.cloud-a {
+  top: 16%;
+  left: 12%;
+}
+
+.cloud-b {
+  top: 28%;
+  right: 25%;
+  transform: scale(0.78);
+}
+
+.mountain-line {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 36%;
+  height: 20%;
+  clip-path: polygon(0 90%, 14% 36%, 26% 74%, 43% 22%, 58% 76%, 72% 42%, 100% 88%, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(87, 138, 91, 0.72), rgba(106, 154, 84, 0.42));
+}
+
+.field-surface {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: -4%;
+  height: 62%;
+  overflow: hidden;
+  border-top: 7px solid rgba(84, 77, 38, 0.18);
+  background:
+    repeating-linear-gradient(92deg, rgba(255, 255, 255, 0.08) 0 5px, transparent 5px 42px),
+    linear-gradient(180deg, var(--soil-dark), var(--soil-mid));
+  transform: perspective(820px) rotateX(32deg);
+  transform-origin: top center;
+}
+
+.farm-canvas.low-fertility .field-surface {
+  background:
+    repeating-linear-gradient(92deg, rgba(255, 255, 255, 0.08) 0 5px, transparent 5px 42px),
+    linear-gradient(180deg, var(--soil-light), #d2a25d);
+}
+
+.farm-canvas.slope .field-surface {
+  transform: perspective(820px) rotateX(38deg) rotateZ(-1deg);
+}
+
+.plant-layer {
+  position: absolute;
+  inset: 8% 4% 12%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-content: space-evenly;
+  gap: 13px 22px;
+  z-index: 6;
+}
+
+.plant-layer span {
+  width: 18px;
+  height: 48px;
+  justify-self: center;
+  border-radius: 50% 50% 8px 8px;
+  background:
+    linear-gradient(90deg, transparent 0 42%, #2a6f3b 42% 58%, transparent 58%),
+    radial-gradient(ellipse at 30% 40%, #59b85c 0 28%, transparent 30%),
+    radial-gradient(ellipse at 70% 46%, #75c86a 0 26%, transparent 28%);
+  animation: sway 2.8s ease-in-out infinite;
+  animation-delay: var(--delay);
+  transform-origin: bottom center;
+}
+
+.density-low span {
+  opacity: 0.55;
+  filter: saturate(0.68) hue-rotate(24deg);
+}
+
+.density-medium span {
+  opacity: 0.82;
+}
+
+.density-high span {
+  opacity: 1;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.crack-layer,
+.water-layer,
+.salt-layer,
+.erosion-layer,
+.grass-layer,
+.terrace-lines,
+.high-standard-grid,
+.drainage-lines,
+.shelterbelt-line {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.farm-canvas.drought .crack-layer {
+  z-index: 7;
+  background:
+    linear-gradient(42deg, transparent 0 46%, rgba(67, 37, 22, 0.5) 47% 48%, transparent 49%),
+    linear-gradient(127deg, transparent 0 56%, rgba(67, 37, 22, 0.42) 57% 58%, transparent 59%);
+  background-size: 120px 90px, 150px 110px;
+}
+
+.farm-canvas.flood .water-layer {
+  z-index: 8;
+  background: linear-gradient(180deg, rgba(71, 161, 214, 0.1), rgba(55, 151, 213, 0.48));
+  animation: waterMove 4s linear infinite;
+}
+
+@keyframes waterMove {
+  from { background-position: 0 0; }
+  to { background-position: 120px 0; }
+}
+
+.farm-canvas.salinization .salt-layer {
+  z-index: 9;
+  background:
+    radial-gradient(circle at 22% 38%, rgba(255, 255, 255, 0.85) 0 3%, transparent 4%),
+    radial-gradient(circle at 58% 62%, rgba(255, 255, 255, 0.8) 0 4%, transparent 5%),
+    radial-gradient(circle at 78% 30%, rgba(255, 255, 255, 0.75) 0 2.5%, transparent 3.5%);
+}
+
+.farm-canvas.erosion .erosion-layer {
+  z-index: 10;
+  background:
+    linear-gradient(112deg, transparent 0 45%, rgba(72, 43, 26, 0.66) 46% 47%, transparent 48%),
+    linear-gradient(76deg, transparent 0 58%, rgba(72, 43, 26, 0.52) 59% 60%, transparent 61%);
+  background-size: 190px 220px, 240px 180px;
+}
+
+.farm-canvas.fallow .grass-layer {
+  z-index: 11;
+  background:
+    repeating-linear-gradient(82deg, rgba(99, 169, 87, 0.76) 0 4px, transparent 4px 17px),
+    linear-gradient(180deg, rgba(111, 166, 77, 0.48), rgba(86, 137, 65, 0.6));
+}
+
+.farm-canvas.terrace .terrace-lines {
+  z-index: 12;
+  background: repeating-linear-gradient(180deg, transparent 0 43px, rgba(255, 248, 208, 0.45) 43px 50px);
+}
+
+.farm-canvas.high-standard .high-standard-grid {
+  z-index: 13;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 92px, rgba(239, 245, 210, 0.66) 92px 100px),
+    repeating-linear-gradient(0deg, transparent 0 82px, rgba(239, 245, 210, 0.58) 82px 90px);
+}
+
+.farm-canvas.drainage .drainage-lines {
+  z-index: 14;
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgba(54, 137, 185, 0.64) 49% 51%, transparent 52%),
+    linear-gradient(0deg, transparent 0 72%, rgba(54, 137, 185, 0.55) 73% 75%, transparent 76%);
+}
+
+.farm-canvas.shelterbelt .shelterbelt-line {
+  z-index: 15;
+  top: 2%;
+  height: 38px;
+  background:
+    radial-gradient(circle at 5% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 13% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 22% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 31% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 40% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 49% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 58% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 67% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 76% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 85% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 94% 40%, #2d7742 0 13px, transparent 14px);
+}
+
+.farm-canvas {
+  background:
+    linear-gradient(180deg, var(--scene-sky, #cfeefa) 0 38%, rgba(246, 236, 184, 0.88) 38% 48%, var(--scene-soil, #946033) 48% 100%);
+  transition: background 0.35s ease, filter 0.25s ease;
+}
+
+.farm-canvas .sky-band {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.86) 0 5%, transparent 6%),
+    linear-gradient(180deg, color-mix(in srgb, var(--scene-sky, #cfeefa) 88%, white), rgba(244, 248, 214, 0.72));
+}
+
+.farm-canvas .cloud {
+  animation: cloudDrift 12s ease-in-out infinite;
+}
+
+.scene-backdrop {
+  position: absolute;
+  inset: 28% 0 32%;
+  pointer-events: none;
+}
+
+.backdrop-hill,
+.backdrop-water,
+.backdrop-desert {
+  position: absolute;
+  display: none;
+}
+
+.backdrop-hill {
+  bottom: 0;
+  height: 75%;
+  background: linear-gradient(180deg, rgba(98, 138, 78, 0.8), rgba(97, 125, 70, 0.3));
+  clip-path: polygon(0 90%, 15% 36%, 31% 78%, 47% 24%, 65% 82%, 82% 42%, 100% 86%, 100% 100%, 0 100%);
+}
+
+.hill-a {
+  left: -8%;
+  width: 60%;
+}
+
+.hill-b {
+  right: -8%;
+  width: 58%;
+  opacity: 0.72;
+  transform: scaleX(-1);
+}
+
+.backdrop-water {
+  right: 4%;
+  bottom: 8%;
+  width: 24%;
+  height: 20%;
+  border-radius: 50%;
+  background: rgba(80, 170, 210, 0.36);
+}
+
+.backdrop-desert {
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 16% 70%, rgba(222, 174, 95, 0.6) 0 18%, transparent 19%),
+    radial-gradient(ellipse at 82% 78%, rgba(207, 154, 78, 0.48) 0 20%, transparent 21%);
+}
+
+.field-surface {
+  background:
+    repeating-linear-gradient(92deg, rgba(255, 255, 255, 0.08) 0 5px, transparent 5px 42px),
+    linear-gradient(180deg, var(--scene-soil, var(--soil-dark)), var(--scene-field, var(--soil-mid)));
+  transition: background 0.28s ease, transform 0.28s ease;
+}
+
+.scene-patches,
+.bund-layer,
+.river-network-layer,
+.channel-lines,
+.drip-lines,
+.road-lines,
+.machine-tracks,
+.gully-lines,
+.karst-rocks,
+.straw-layer,
+.mulch-layer,
+.pollution-layer,
+.return-forest-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scene-patches {
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr 1fr 1.15fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  padding: 18px 46px 46px;
+  opacity: 0.78;
+}
+
+.scene-patches span {
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  background: color-mix(in srgb, var(--scene-field, #9b6a3a) 72%, rgba(255, 255, 255, 0.18));
+}
+
+.scene-patches span:nth-child(2n) {
+  background: color-mix(in srgb, var(--scene-soil, #946033) 74%, rgba(245, 228, 160, 0.28));
+}
+
+.scene-plain-dry-irrigated .field-surface {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 242, 184, 0.18) 0 7px, transparent 7px 48px),
+    linear-gradient(180deg, #b38349, #9b6a3a);
+}
+
+.scene-black-soil-plain .field-surface {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 6px, transparent 6px 62px),
+    linear-gradient(180deg, #4a3829, #2e251e);
+}
+
+.scene-black-soil-plain .scene-patches {
+  grid-template-columns: 1.5fr 1.2fr 1.4fr;
+  gap: 10px;
+}
+
+.scene-paddy-river-plain .field-surface {
+  background:
+    linear-gradient(180deg, rgba(92, 170, 202, 0.46), rgba(108, 172, 100, 0.78)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 3px, transparent 3px 54px);
+}
+
+.scene-paddy-river-plain .backdrop-water,
+.scene-basin-mosaic .backdrop-water {
+  display: block;
+}
+
+.scene-paddy-river-plain .bund-layer {
+  z-index: 3;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 88px, rgba(96, 92, 48, 0.42) 88px 94px),
+    repeating-linear-gradient(0deg, transparent 0 72px, rgba(96, 92, 48, 0.34) 72px 78px);
+}
+
+.scene-paddy-river-plain .river-network-layer {
+  z-index: 4;
+  background:
+    linear-gradient(108deg, transparent 0 42%, rgba(66, 155, 203, 0.65) 43% 46%, transparent 47%),
+    linear-gradient(16deg, transparent 0 58%, rgba(66, 155, 203, 0.5) 59% 61%, transparent 62%);
+}
+
+.scene-loess-slope-terrace .field-surface,
+.scene-mountain-terrace-karst .field-surface,
+.scene-southeast-hills .field-surface {
+  transform: perspective(820px) rotateX(38deg) rotateZ(-1deg);
+}
+
+.scene-loess-slope-terrace .field-surface {
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 248, 208, 0.16) 0 13px, transparent 13px 58px),
+    linear-gradient(160deg, #d5a861, #b8793f);
+}
+
+.scene-loess-slope-terrace .backdrop-hill,
+.scene-mountain-terrace-karst .backdrop-hill,
+.scene-basin-mosaic .backdrop-hill,
+.scene-southeast-hills .backdrop-hill {
+  display: block;
+}
+
+.scene-mountain-terrace-karst .field-surface {
+  background:
+    radial-gradient(circle at 16% 32%, rgba(226, 226, 215, 0.62) 0 5%, transparent 6%),
+    radial-gradient(circle at 74% 22%, rgba(222, 222, 208, 0.5) 0 4%, transparent 5%),
+    linear-gradient(150deg, #bf8052, #8d563b);
+}
+
+.scene-desert-oasis {
+  background:
+    linear-gradient(180deg, #c9edf5 0 34%, #e8c781 34% 49%, #d6b06d 49% 100%);
+}
+
+.scene-desert-oasis .backdrop-desert {
+  display: block;
+}
+
+.scene-desert-oasis .field-surface {
+  left: 4%;
+  right: 4%;
+  border-radius: 46% 54% 0 0 / 18% 18% 0 0;
+  background:
+    linear-gradient(90deg, rgba(216, 182, 108, 0.8) 0 12%, transparent 13% 87%, rgba(216, 182, 108, 0.82) 88% 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 4px, transparent 4px 42px),
+    linear-gradient(180deg, #7fc66f, #4c9b52);
+}
+
+.scene-basin-mosaic .field-surface {
+  background:
+    linear-gradient(112deg, rgba(87, 158, 201, 0.4) 0 25%, transparent 26%),
+    linear-gradient(180deg, #8fba66, #8b5b38);
+}
+
+.scene-basin-mosaic .scene-patches {
+  grid-template-columns: 1fr 0.8fr 1.1fr 0.9fr;
+  grid-template-rows: 0.8fr 1fr 0.75fr;
+  gap: 7px;
+}
+
+.scene-basin-mosaic .scene-patches span:nth-child(3n),
+.scene-southeast-hills .scene-patches span:nth-child(3n) {
+  background: rgba(95, 172, 199, 0.36);
+}
+
+.scene-southeast-hills .field-surface {
+  background:
+    repeating-linear-gradient(180deg, rgba(225, 248, 215, 0.14) 0 12px, transparent 12px 52px),
+    linear-gradient(150deg, #60b56a, #9d5d42);
+}
+
+.scene-southeast-hills .scene-patches {
+  grid-template-columns: 0.9fr 1.15fr 0.8fr 1fr;
+  transform: rotate(-1deg);
+}
+
+.channel-lines {
+  z-index: 5;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 0 47%, rgba(64, 151, 190, 0.7) 48% 51%, transparent 52%),
+    linear-gradient(0deg, transparent 0 70%, rgba(64, 151, 190, 0.54) 71% 74%, transparent 75%);
+}
+
+.scene-plain-dry-irrigated .channel-lines,
+.scene-desert-oasis .channel-lines,
+.measure-irrigation .channel-lines,
+.measure-saving-water .channel-lines {
+  opacity: 1;
+}
+
+.drip-lines {
+  z-index: 8;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 44px, rgba(42, 119, 101, 0.64) 44px 47px, transparent 47px 74px),
+    radial-gradient(circle at 28% 46%, rgba(82, 170, 205, 0.7) 0 4px, transparent 5px),
+    radial-gradient(circle at 64% 58%, rgba(82, 170, 205, 0.7) 0 4px, transparent 5px);
+}
+
+.measure-saving-water .drip-lines {
+  opacity: 1;
+}
+
+.road-lines {
+  z-index: 6;
+  opacity: 0;
+  background:
+    linear-gradient(98deg, transparent 0 72%, rgba(238, 226, 170, 0.74) 73% 76%, transparent 77%),
+    linear-gradient(0deg, transparent 0 82%, rgba(238, 226, 170, 0.62) 83% 86%, transparent 87%);
+}
+
+.scene-plain-dry-irrigated .road-lines,
+.measure-high-standard .road-lines,
+.measure-high-standard .high-standard-grid {
+  opacity: 1;
+}
+
+.machine-tracks {
+  z-index: 5;
+  opacity: 0;
+  background: repeating-linear-gradient(92deg, transparent 0 82px, rgba(22, 20, 17, 0.18) 82px 88px, transparent 88px 132px);
+}
+
+.scene-black-soil-plain .machine-tracks {
+  opacity: 1;
+}
+
+.terrace-lines {
+  opacity: 0;
+}
+
+.scene-loess-slope-terrace .terrace-lines,
+.scene-mountain-terrace-karst .terrace-lines,
+.scene-southeast-hills .terrace-lines,
+.measure-terrace .terrace-lines {
+  z-index: 12;
+  opacity: 1;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 38px, rgba(255, 248, 208, 0.5) 38px 45px),
+    repeating-linear-gradient(12deg, transparent 0 110px, rgba(80, 56, 34, 0.18) 110px 114px);
+}
+
+.gully-lines {
+  z-index: 9;
+  opacity: 0;
+  background:
+    linear-gradient(112deg, transparent 0 45%, rgba(77, 43, 24, 0.58) 46% 47%, transparent 48%),
+    linear-gradient(72deg, transparent 0 60%, rgba(77, 43, 24, 0.48) 61% 62%, transparent 63%);
+  background-size: 210px 220px, 260px 180px;
+}
+
+.scene-loess-slope-terrace .gully-lines,
+.risk-erosion .gully-lines,
+.erosion .gully-lines {
+  opacity: 1;
+}
+
+.karst-rocks {
+  z-index: 10;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 22% 35%, rgba(224, 224, 213, 0.76) 0 4%, transparent 5%),
+    radial-gradient(ellipse at 50% 55%, rgba(210, 210, 198, 0.72) 0 5%, transparent 6%),
+    radial-gradient(ellipse at 78% 28%, rgba(230, 230, 218, 0.7) 0 4%, transparent 5%);
+}
+
+.scene-mountain-terrace-karst .karst-rocks,
+.risk-karst .karst-rocks,
+.ecology-critical .karst-rocks {
+  opacity: 1;
+}
+
+.straw-layer,
+.mulch-layer {
+  z-index: 7;
+  opacity: 0;
+}
+
+.measure-straw .straw-layer {
+  opacity: 1;
+  background: repeating-linear-gradient(22deg, transparent 0 16px, rgba(226, 191, 98, 0.68) 16px 20px, transparent 20px 38px);
+}
+
+.measure-mulch .mulch-layer,
+.measure-conservation .mulch-layer {
+  opacity: 1;
+  background: repeating-linear-gradient(84deg, rgba(91, 153, 78, 0.56) 0 6px, transparent 6px 22px);
+}
+
+.water-layer {
+  opacity: 0;
+}
+
+.water-high .water-layer,
+.risk-flood .water-layer,
+.flood .water-layer,
+.measure-over-irrigation .water-layer,
+.selected-crop-rice .water-layer {
+  z-index: 8;
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(80, 168, 213, 0.12), rgba(55, 151, 213, 0.44));
+}
+
+.measure-high-standard .high-standard-grid {
+  z-index: 13;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 92px, rgba(239, 245, 210, 0.66) 92px 100px),
+    repeating-linear-gradient(0deg, transparent 0 82px, rgba(239, 245, 210, 0.58) 82px 90px);
+}
+
+.measure-drainage .drainage-lines {
+  z-index: 14;
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgba(54, 137, 185, 0.68) 49% 51%, transparent 52%),
+    linear-gradient(0deg, transparent 0 72%, rgba(54, 137, 185, 0.6) 73% 75%, transparent 76%);
+}
+
+.measure-shelterbelt .shelterbelt-line {
+  z-index: 15;
+  top: 2%;
+  height: 38px;
+  background:
+    radial-gradient(circle at 5% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 13% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 22% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 31% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 40% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 49% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 58% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 67% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 76% 40%, #2d7742 0 13px, transparent 14px),
+    radial-gradient(circle at 85% 48%, #2f8545 0 12px, transparent 13px),
+    radial-gradient(circle at 94% 40%, #2d7742 0 13px, transparent 14px);
+}
+
+.water-critical .crack-layer,
+.risk-drought .crack-layer,
+.drought .crack-layer {
+  z-index: 11;
+  background:
+    linear-gradient(42deg, transparent 0 46%, rgba(67, 37, 22, 0.55) 47% 48%, transparent 49%),
+    linear-gradient(127deg, transparent 0 56%, rgba(67, 37, 22, 0.44) 57% 58%, transparent 59%);
+  background-size: 120px 90px, 150px 110px;
+}
+
+.risk-salinization .salt-layer,
+.salinization .salt-layer,
+.measure-over-irrigation .salt-layer {
+  z-index: 12;
+  background:
+    radial-gradient(circle at 22% 38%, rgba(255, 255, 255, 0.88) 0 3%, transparent 4%),
+    radial-gradient(circle at 58% 62%, rgba(255, 255, 255, 0.84) 0 4%, transparent 5%),
+    radial-gradient(circle at 78% 30%, rgba(255, 255, 255, 0.78) 0 2.5%, transparent 3.5%);
+}
+
+.pollution-layer {
+  z-index: 13;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 30% 58%, rgba(111, 77, 131, 0.45) 0 5%, transparent 6%),
+    radial-gradient(circle at 72% 36%, rgba(159, 77, 74, 0.38) 0 4%, transparent 5%);
+}
+
+.risk-pollution .pollution-layer,
+.measure-over-fertilizer .pollution-layer {
+  opacity: 1;
+}
+
+.return-forest-layer {
+  z-index: 16;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 12% 68%, rgba(57, 121, 62, 0.82) 0 14px, transparent 15px),
+    radial-gradient(circle at 22% 48%, rgba(76, 144, 69, 0.74) 0 13px, transparent 14px),
+    radial-gradient(circle at 84% 64%, rgba(57, 121, 62, 0.82) 0 15px, transparent 16px),
+    repeating-linear-gradient(82deg, rgba(99, 169, 87, 0.46) 0 4px, transparent 4px 19px);
+}
+
+.measure-return-forest .return-forest-layer {
+  opacity: 1;
+}
+
+.risk-urban .field-surface::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: 18%;
+  z-index: 18;
+  width: 18%;
+  height: 18%;
+  background:
+    linear-gradient(90deg, rgba(180, 183, 180, 0.9) 0 30%, transparent 31%),
+    linear-gradient(0deg, rgba(140, 145, 144, 0.74) 0 38%, transparent 39%);
+  border: 1px solid rgba(98, 104, 104, 0.45);
+}
+
+.farm-canvas-with-background.fertility-low .farm-background,
+.farm-canvas-with-background.fertility-critical .farm-background,
+.farm-canvas-with-background.risk-black-soil-loss .farm-background {
+  filter: saturate(0.78) brightness(1.08);
+}
+
+.farm-canvas-with-background.ecology-critical .farm-background {
+  filter: saturate(0.72) contrast(0.92) brightness(0.96);
+}
+
+.farm-canvas-with-background.water-critical .farm-background,
+.farm-canvas-with-background.risk-drought .farm-background {
+  filter: saturate(0.82) sepia(0.12) brightness(1.04);
+}
+
+.farm-canvas-with-background.measure-green-agri .farm-background,
+.farm-canvas-with-background.measure-fertilizer .farm-background {
+  filter: saturate(1.08) brightness(1.03);
+}
+
+.farm-canvas-with-background .water-layer,
+.farm-canvas-with-background .salt-layer,
+.farm-canvas-with-background .erosion-layer,
+.farm-canvas-with-background .gully-lines,
+.farm-canvas-with-background .pollution-layer,
+.farm-canvas-with-background .return-forest-layer,
+.farm-canvas-with-background .high-standard-grid,
+.farm-canvas-with-background .drainage-lines,
+.farm-canvas-with-background .shelterbelt-line,
+.farm-canvas-with-background .channel-lines,
+.farm-canvas-with-background .drip-lines,
+.farm-canvas-with-background .road-lines,
+.farm-canvas-with-background .machine-tracks,
+.farm-canvas-with-background .straw-layer,
+.farm-canvas-with-background .mulch-layer,
+.farm-canvas-with-background .karst-rocks,
+.farm-canvas-with-background .crack-layer {
+  mix-blend-mode: normal;
+}
+
+.farm-canvas-with-background .water-layer {
+  backdrop-filter: saturate(1.05);
+}
+
+.farm-canvas-with-background .crack-layer {
+  opacity: 0.78;
+}
+
+.farm-canvas-with-background .salt-layer {
+  opacity: 0.9;
+}
+
+.farm-canvas-with-background .gully-lines,
+.farm-canvas-with-background .erosion-layer {
+  opacity: 0.78;
+}
+
+.farm-canvas-with-background.risk-urban .farm-effects-layer::after {
+  content: "";
+  position: absolute;
+  right: 7%;
+  bottom: 14%;
+  z-index: 18;
+  width: 17%;
+  height: 17%;
+  background:
+    linear-gradient(90deg, rgba(184, 188, 186, 0.86) 0 30%, transparent 31%),
+    linear-gradient(0deg, rgba(140, 145, 144, 0.68) 0 38%, transparent 39%);
+  border: 1px solid rgba(98, 104, 104, 0.36);
+  border-radius: 4px;
+}
+
+@keyframes farmBackgroundIn {
+  from {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+}
+
+.fertility-low .field-surface,
+.fertility-critical .field-surface,
+.risk-black-soil-loss .field-surface {
+  filter: saturate(0.78) brightness(1.12);
+}
+
+.fertility-critical .field-surface::before,
+.ecology-critical .field-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  opacity: 0.5;
+  background:
+    radial-gradient(circle at 22% 34%, rgba(226, 198, 136, 0.58) 0 7%, transparent 8%),
+    radial-gradient(circle at 68% 66%, rgba(226, 198, 136, 0.48) 0 8%, transparent 9%);
+  pointer-events: none;
+}
+
+.scene-label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 24;
+  display: grid;
+  gap: 3px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #1d432e;
+  box-shadow: 0 8px 18px rgba(31, 70, 45, 0.12);
+}
+
+.scene-label span {
+  color: #4d6956;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.crop-renderer {
+  position: absolute;
+  left: var(--crop-left, 8%);
+  top: var(--crop-top, 52%);
+  width: var(--crop-width, 84%);
+  height: var(--crop-height, 38%);
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  align-content: space-evenly;
+  gap: 12px 18px;
+  pointer-events: none;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.crop-perspective-plain-rows {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  transform: perspective(680px) rotateX(16deg);
+  transform-origin: top center;
+}
+
+.crop-perspective-irrigated-rows {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  transform: perspective(660px) rotateX(18deg);
+  transform-origin: top center;
+}
+
+.crop-perspective-paddy-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 9px 12px;
+  padding: 5px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 58px, rgba(86, 112, 70, 0.28) 58px 63px),
+    repeating-linear-gradient(0deg, transparent 0 42px, rgba(86, 112, 70, 0.22) 42px 47px);
+}
+
+.crop-perspective-terrace-bands,
+.crop-perspective-terrace-patches {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px 20px;
+  transform: rotate(-3deg) perspective(620px) rotateX(14deg);
+  transform-origin: top center;
+}
+
+.crop-perspective-terrace-bands {
+  background: repeating-linear-gradient(180deg, transparent 0 30px, rgba(255, 248, 208, 0.18) 30px 36px, transparent 36px 62px);
+}
+
+.crop-perspective-terrace-patches {
+  border-radius: 22% 28% 12% 18%;
+}
+
+.crop-perspective-patchwork-fields {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 13px 24px;
+  padding: 4px 10px;
+  clip-path: polygon(0 8%, 96% 0, 100% 86%, 9% 100%);
+}
+
+.crop-plant {
+  position: relative;
+  justify-self: center;
+  width: 22px;
+  height: 44px;
+  transform-origin: bottom center;
+  animation: sway 2.8s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.crop-plant i,
+.crop-plant b,
+.crop-plant em {
+  position: absolute;
+  display: block;
+  font-style: normal;
+}
+
+.crop-plant i {
+  left: 50%;
+  bottom: 0;
+  width: 4px;
+  height: 80%;
+  border-radius: 999px;
+  background: var(--crop-color);
+  transform: translateX(-50%);
+}
+
+.crop-plant b,
+.crop-plant em {
+  left: 50%;
+  top: 36%;
+  width: 22px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--crop-accent);
+}
+
+.crop-plant b {
+  transform: translateX(-92%) rotate(-22deg);
+}
+
+.crop-plant em {
+  transform: translateX(-8%) rotate(22deg);
+}
+
+.crop-corn .crop-plant {
+  height: 66px;
+  width: 26px;
+}
+
+.crop-corn .crop-plant i {
+  height: 92%;
+  width: 5px;
+}
+
+.crop-corn .crop-plant b,
+.crop-corn .crop-plant em {
+  width: 28px;
+  height: 9px;
+  top: 42%;
+  border-radius: 100% 0 100% 0;
+}
+
+.crop-soybean .crop-plant {
+  height: 34px;
+}
+
+.crop-soybean .crop-plant i {
+  height: 54%;
+}
+
+.crop-soybean .crop-plant b,
+.crop-soybean .crop-plant em {
+  width: 17px;
+  height: 17px;
+  top: 28%;
+  border-radius: 50%;
+}
+
+.crop-rice {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.crop-rice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(93, 181, 218, 0.24), rgba(93, 181, 218, 0.1));
+}
+
+.crop-rice .crop-plant {
+  width: 12px;
+  height: 42px;
+}
+
+.crop-rice .crop-plant i {
+  width: 2px;
+  height: 100%;
+}
+
+.crop-rice .crop-plant b,
+.crop-rice .crop-plant em {
+  width: 13px;
+  height: 3px;
+  top: 20%;
+}
+
+.crop-wheat {
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 9px 10px;
+}
+
+.crop-wheat .crop-plant {
+  width: 10px;
+  height: 45px;
+}
+
+.crop-wheat .crop-plant i {
+  width: 2px;
+}
+
+.crop-wheat .crop-plant b,
+.crop-wheat .crop-plant em {
+  top: 0;
+  width: 7px;
+  height: 18px;
+  border-radius: 999px 999px 4px 4px;
+  background: var(--crop-accent);
+}
+
+.crop-cotton .crop-plant {
+  height: 42px;
+}
+
+.crop-cotton .crop-plant b,
+.crop-cotton .crop-plant em {
+  top: 18%;
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(210, 210, 200, 0.8);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.crop-potato {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  background: repeating-linear-gradient(0deg, transparent 0 34px, rgba(95, 60, 34, 0.3) 34px 40px, transparent 40px 66px);
+}
+
+.crop-potato .crop-plant {
+  height: 28px;
+}
+
+.crop-potato .crop-plant i {
+  height: 42%;
+}
+
+.crop-potato .crop-plant b,
+.crop-potato .crop-plant em {
+  width: 20px;
+  height: 14px;
+  top: 22%;
+  background: var(--crop-accent);
+}
+
+.crop-rapeseed .crop-plant {
+  height: 48px;
+}
+
+.crop-rapeseed .crop-plant b,
+.crop-rapeseed .crop-plant em {
+  top: 5%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--crop-accent);
+  box-shadow: 9px 3px 0 var(--crop-accent), -4px 8px 0 var(--crop-accent);
+}
+
+.crop-tea {
+  inset: 16% 8% 14%;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px 20px;
+  transform: rotate(-2deg);
+}
+
+.crop-tea .crop-plant {
+  width: 46px;
+  height: 22px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 24% 50%, var(--crop-accent) 0 9px, transparent 10px),
+    radial-gradient(circle at 50% 45%, var(--crop-color) 0 12px, transparent 13px),
+    radial-gradient(circle at 76% 52%, var(--crop-accent) 0 9px, transparent 10px);
+}
+
+.crop-tea .crop-plant i,
+.crop-tea .crop-plant b,
+.crop-tea .crop-plant em {
+  display: none;
+}
+
+.crop-health-lush {
+  filter: saturate(1.15) brightness(1.04);
+}
+
+.crop-health-stressed {
+  opacity: 0.78;
+  filter: saturate(0.76) sepia(0.2);
+}
+
+.crop-health-poor {
+  opacity: 0.55;
+  filter: saturate(0.56) sepia(0.35) hue-rotate(18deg);
+}
+
+.measure-fertilizer .crop-renderer,
+.measure-green-agri .crop-renderer,
+.measure-drought-crop .crop-renderer {
+  filter: saturate(1.18) brightness(1.06);
+}
+
+.measure-rotation .crop-renderer,
+.measure-return-forest .crop-renderer {
+  opacity: 0.42;
+}
+
+.scene-mountain-terrace-karst .crop-renderer,
+.scene-loess-slope-terrace .crop-renderer,
+.scene-southeast-hills .crop-renderer {
+  transform: rotate(-2deg);
+}
+
+@keyframes cloudDrift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(18px); }
+}
+
+.canvas-legend {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 18;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.canvas-legend span,
+.stage-toolbar span {
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.feedback-line {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: #2f513b;
+  background: rgba(255, 255, 255, 0.82);
+  line-height: 1.6;
+  box-shadow: 0 8px 18px rgba(40, 83, 58, 0.08);
+}
+
+.ai-avatar {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  color: white;
+  background: linear-gradient(135deg, #2c7b4d, #3d92c8);
+  font-weight: 900;
+}
+
+.event-card {
+  display: grid;
+  gap: 6px;
+}
+
+.event-card span {
+  color: #4d674e;
+  line-height: 1.6;
+}
+
+.diagnosis-list {
+  margin-top: 16px;
+}
+
+.action-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.6fr) minmax(220px, 0.7fr) minmax(460px, 1.5fr) minmax(190px, 0.55fr);
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(52, 118, 76, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.action-group h2 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.button-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.crop-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.intensity-grid {
+  grid-template-columns: 1fr;
+}
+
+.measure-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 9px;
+  border: 1px solid rgba(53, 107, 67, 0.14);
+  border-radius: 8px;
+  color: #2b583d;
+  background: #f4faef;
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.choice em {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.choice.recommended {
+  border-color: rgba(45, 155, 86, 0.42);
+  background: #effaf0;
+}
+
+.choice.recommended em {
+  color: #147342;
+  background: #d9f4df;
+}
+
+.choice.caution {
+  border-color: rgba(196, 90, 63, 0.42);
+  background: #fff6f1;
+}
+
+.choice.caution em {
+  color: #a63b28;
+  background: #ffe0d5;
+}
+
+.choice.disabled,
+.choice:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+  box-shadow: none;
+  filter: grayscale(0.28);
+}
+
+.choice.disabled:hover,
+.choice:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.choice.conflict-disabled,
+.choice.limit-disabled {
+  color: #68766c;
+  border-color: rgba(88, 103, 92, 0.22);
+  background: #eef1ed;
+}
+
+.choice.conflict-disabled em,
+.choice.limit-disabled em {
+  color: #5d6760;
+  background: #dfe5df;
+}
+
+.choice.active {
+  color: white;
+  background: linear-gradient(135deg, #27794e, #57ad6d);
+  box-shadow: 0 8px 16px rgba(43, 118, 74, 0.2);
+}
+
+.choice.active em {
+  color: #185536;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.crop-choice {
+  padding-right: 34px;
+}
+
+.crop-choice.crop-fit-optional {
+  border-color: rgba(53, 107, 67, 0.16);
+  background: #f7faf0;
+}
+
+.crop-choice.crop-fit-notRecommended.active {
+  background: linear-gradient(135deg, #b85d3c, #d98c3a);
+  box-shadow: 0 8px 16px rgba(161, 75, 42, 0.18);
+}
+
+.crop-choice.crop-fit-recommended.active {
+  background: linear-gradient(135deg, #247a46, #43a047);
+}
+
+.crop-choice.crop-fit-notRecommended.active em,
+.crop-choice.crop-fit-recommended.active em {
+  color: #185536;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.group-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.group-title-row span {
+  color: #6a7c6e;
+  font-size: 0.88rem;
+}
+
+.measure-conflict-hint {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(45, 112, 76, 0.16);
+  border-radius: 8px;
+  color: #315c40;
+  background: #f1f8ec;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.measure-conflict-hint.warning {
+  border-color: rgba(196, 90, 63, 0.24);
+  color: #8a3529;
+  background: #fff1eb;
+}
+
+.measure-conflict-hint p {
+  margin: 0;
+}
+
+.simulation-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(520px, 1.3fr);
+  gap: 16px;
+}
+
+.grade-badge {
+  display: inline-flex;
+  margin: 4px 0 14px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  color: white;
+  background: linear-gradient(135deg, #286b47, #54a668);
+  font-weight: 900;
+}
+
+.report-charts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mini-chart {
+  display: grid;
+  gap: 10px;
+}
+
+.chart-bars {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: end;
+  gap: 10px;
+  height: 220px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f6faef;
+}
+
+.chart-bar {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 1fr auto;
+  gap: 6px;
+  align-items: end;
+  text-align: center;
+}
+
+.chart-bar span {
+  display: block;
+  min-height: 8%;
+  border-radius: 8px 8px 3px 3px;
+  background: linear-gradient(180deg, #4da66d, #7bbd63);
+}
+
+.chart-bar small {
+  color: #55715b;
+  font-weight: 800;
+}
+
+.report-table {
+  grid-column: 1 / -1;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(54, 114, 74, 0.14);
+  text-align: left;
+}
+
+th {
+  color: #315c40;
+  background: #edf7e8;
+}
+
+@media (max-width: 1180px) {
+  .home-page,
+  .region-layout,
+  .sim-grid,
+  .action-panel,
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .china-map-card {
+    position: relative;
+    min-height: 520px;
+  }
+
+  .sim-grid {
+    align-items: start;
+  }
+
+  .farm-stage {
+    min-height: auto;
+  }
+
+  .region-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-section {
+    min-height: 86vh;
+  }
+
+  .hero-photo {
+    object-position: 66% 50%;
+  }
+
+  .hero-photo-shade {
+    background:
+      linear-gradient(90deg, rgba(248, 250, 231, 0.96) 0%, rgba(238, 248, 232, 0.88) 46%, rgba(238, 248, 232, 0.32) 100%),
+      linear-gradient(180deg, rgba(217, 241, 248, 0.22), rgba(36, 98, 54, 0.24));
+  }
+
+  .hero-content {
+    width: min(680px, calc(100% - 40px));
+  }
+
+  .geo-orbit {
+    right: -8vw;
+    opacity: 0.22;
+  }
+
+  .metric-reason {
+    left: 0;
+    top: calc(100% + 8px);
+    width: min(460px, 86vw);
+  }
+
+  .metric-reason::before {
+    left: 24px;
+    top: -7px;
+    border: 0;
+    border-left: 1px solid rgba(42, 112, 76, 0.18);
+    border-top: 1px solid rgba(42, 112, 76, 0.18);
+  }
+}
+
+@media (max-width: 760px) {
+  .content-page,
+  .simulator-page,
+  .page-grid {
+    width: min(100vw - 20px, 1440px);
+    padding: 10px 0;
+  }
+
+  .hero-section {
+    min-height: 820px;
+  }
+
+  .hero-photo {
+    object-position: 65% 50%;
+  }
+
+  .hero-photo-shade {
+    background:
+      linear-gradient(180deg, rgba(248, 250, 231, 0.98) 0%, rgba(238, 248, 232, 0.92) 46%, rgba(238, 248, 232, 0.34) 100%),
+      linear-gradient(90deg, rgba(248, 250, 231, 0.9), rgba(238, 248, 232, 0.2));
+  }
+
+  .hero-content {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    padding: 54px 0 180px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.8rem, 15vw, 4.4rem);
+  }
+
+  .hero-actions,
+  .hero-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+  }
+
+  .hero-primary,
+  .hero-secondary {
+    width: 100%;
+  }
+
+  .hero-highlights {
+    display: grid;
+    margin-top: 24px;
+  }
+
+  .geo-orbit {
+    width: 86vw;
+    right: -38vw;
+    top: 22vh;
+    opacity: 0.16;
+  }
+
+  .hero-field-lines {
+    height: 18%;
+  }
+
+  .goal-panel,
+  .profile-main,
+  .side-panel,
+  .ai-panel,
+  .report-summary,
+  .report-charts,
+  .report-table {
+    padding: 16px;
+  }
+
+  .page-header,
+  .sim-header,
+  .stage-toolbar,
+  .canvas-legend {
+    flex-direction: column;
+  }
+
+  .region-card-grid,
+  .profile-grid,
+  .two-columns,
+  .report-charts,
+  .crop-grid,
+  .measure-grid,
+  .region-image-grid,
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .region-image-card {
+    min-height: auto;
+  }
+
+  .compare-dock,
+  .compare-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-hero,
+  .profile-hero img {
+    min-height: 300px;
+  }
+
+  .profile-hero-content {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .info-list div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .farm-canvas {
+    min-height: 460px;
+  }
+}
+
+/* FarmCanvas PNG scene mode: crops and risk effects are clipped inside manual crop zones. */
+.farm-canvas-with-background {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #eef6ec;
+}
+
+.farm-canvas-with-background .farm-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.farm-canvas-with-background .farm-effects-layer,
+.farm-canvas-with-background .sky-band,
+.farm-canvas-with-background .sun,
+.farm-canvas-with-background .cloud,
+.farm-canvas-with-background .mountain-line,
+.farm-canvas-with-background .field-surface,
+.farm-canvas-with-background .plant-layer,
+.farm-canvas-with-background .scene-backdrop,
+.farm-canvas-with-background .scene-patches,
+.farm-canvas-with-background .bund-layer,
+.farm-canvas-with-background .river-network-layer {
+  display: none;
+}
+
+.farm-land-layers,
+.farm-label-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.farm-land-layers {
+  z-index: 2;
+}
+
+.farm-label-layer {
+  z-index: 4;
+}
+
+.crop-zone {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 8px;
+  transform-origin: center center;
+  isolation: isolate;
+}
+
+.crop-zone.debug {
+  outline: 2px dashed rgba(47, 191, 113, 0.86);
+  background: rgba(47, 191, 113, 0.08);
+}
+
+.crop-zone .zone-effects {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.crop-zone .zone-effects > div {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-content: space-evenly;
+  justify-content: stretch;
+  pointer-events: none;
+  transform: none;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.crop-layout-plain_rows {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 8px 18px;
+  transform: perspective(680px) rotateX(14deg);
+  transform-origin: top center;
+}
+
+.crop-layout-irrigated_rows {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 8px 16px;
+  transform: perspective(660px) rotateX(16deg);
+  transform-origin: top center;
+}
+
+.crop-layout-paddy_grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 7px 10px;
+  padding: 5px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 58px, rgba(86, 112, 70, 0.18) 58px 62px),
+    repeating-linear-gradient(0deg, transparent 0 42px, rgba(86, 112, 70, 0.14) 42px 46px);
+}
+
+.crop-layout-terrace_bands {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px 18px;
+  padding: 3px 12px;
+  background: repeating-linear-gradient(180deg, transparent 0 28px, rgba(255, 248, 208, 0.14) 28px 33px, transparent 33px 58px);
+}
+
+.crop-layout-terrace_patches {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px 16px;
+  padding: 4px 8px;
+  border-radius: 22% 28% 14% 18%;
+}
+
+.crop-layout-patchwork_fields {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 9px 20px;
+  padding: 5px 10px;
+  clip-path: polygon(0 8%, 96% 0, 100% 86%, 9% 100%);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-plain_rows {
+  transform: perspective(680px) rotateX(14deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-irrigated_rows {
+  transform: perspective(660px) rotateX(16deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-paddy_grid {
+  transform: none;
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-terrace_bands {
+  transform: perspective(620px) rotateX(10deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-terrace_patches {
+  transform: perspective(620px) rotateX(8deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-patchwork_fields {
+  transform: none;
+}
+
+.crop-layout-terrace_bands .crop-plant,
+.crop-layout-terrace_patches .crop-plant,
+.crop-layout-patchwork_fields .crop-plant {
+  transform: scale(0.86);
+}
+
+.farm-canvas-with-background .crop-potato,
+.farm-canvas-with-background .crop-rice::before {
+  border-radius: 8px;
+}
+
+.scene-plain-dry-irrigated .crop-zone .channel-lines,
+.scene-desert-oasis .crop-zone .channel-lines,
+.measure-irrigation .crop-zone .channel-lines,
+.measure-saving-water .crop-zone .channel-lines {
+  opacity: 0.42;
+}
+
+.measure-saving-water .crop-zone .drip-lines,
+.scene-plain-dry-irrigated .crop-zone .road-lines,
+.measure-high-standard .crop-zone .road-lines,
+.scene-black-soil-plain .crop-zone .machine-tracks {
+  opacity: 0.34;
+}
+
+.scene-loess-slope-terrace .crop-zone .terrace-lines,
+.scene-mountain-terrace-karst .crop-zone .terrace-lines,
+.scene-southeast-hills .crop-zone .terrace-lines,
+.measure-terrace .crop-zone .terrace-lines {
+  opacity: 0.48;
+}
+
+.scene-loess-slope-terrace .crop-zone .gully-lines,
+.risk-erosion .crop-zone .gully-lines,
+.erosion .crop-zone .gully-lines,
+.risk-erosion .crop-zone .erosion-layer,
+.erosion .crop-zone .erosion-layer {
+  opacity: 0.56;
+}
+
+.scene-mountain-terrace-karst .crop-zone .karst-rocks,
+.risk-karst .crop-zone .karst-rocks,
+.ecology-critical .crop-zone .karst-rocks {
+  opacity: 0.48;
+}
+
+.measure-straw .crop-zone .straw-layer,
+.measure-mulch .crop-zone .mulch-layer,
+.measure-conservation .crop-zone .mulch-layer {
+  opacity: 0.45;
+}
+
+.water-high .crop-zone .water-layer,
+.risk-flood .crop-zone .water-layer,
+.flood .crop-zone .water-layer,
+.measure-over-irrigation .crop-zone .water-layer {
+  opacity: 0.56;
+}
+
+.selected-crop-rice .crop-zone .water-layer {
+  opacity: 0.32;
+}
+
+.water-critical .crop-zone .crack-layer,
+.risk-drought .crop-zone .crack-layer,
+.drought .crop-zone .crack-layer {
+  opacity: 0.62;
+}
+
+.risk-salinization .crop-zone .salt-layer,
+.salinization .crop-zone .salt-layer,
+.measure-over-irrigation .crop-zone .salt-layer {
+  opacity: 0.68;
+}
+
+.risk-pollution .crop-zone .pollution-layer,
+.measure-over-fertilizer .crop-zone .pollution-layer,
+.ecology-critical .crop-zone .pollution-layer {
+  opacity: 0.52;
+}
+
+.fallow .crop-zone .grass-layer,
+.measure-rotation .crop-zone .grass-layer {
+  opacity: 0.48;
+}
+
+.measure-return-forest .crop-zone .return-forest-layer {
+  opacity: 0.64;
+}
+
+.measure-high-standard .crop-zone .high-standard-grid,
+.measure-drainage .crop-zone .drainage-lines,
+.measure-shelterbelt .crop-zone .shelterbelt-line {
+  opacity: 0.52;
+}
+
+.farm-canvas-with-background.risk-urban .crop-zone::after {
+  content: "";
+  position: absolute;
+  right: 6%;
+  bottom: 9%;
+  z-index: 3;
+  width: 18%;
+  height: 22%;
+  border: 1px solid rgba(98, 104, 104, 0.35);
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, rgba(184, 188, 186, 0.72) 0 30%, transparent 31%),
+    linear-gradient(0deg, rgba(140, 145, 144, 0.58) 0 38%, transparent 39%);
+}
+
+.crop-mask-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.crop-mask-layer .zone-effects {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.crop-mask-layer .zone-effects > div {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  transform: none;
+  opacity: 0.98;
+  filter:
+    saturate(1.38)
+    contrast(1.2)
+    brightness(0.94)
+    drop-shadow(0 2px 1px rgba(29, 48, 24, 0.28));
+}
+
+.crop-mask-renderer .crop-plant {
+  position: absolute;
+  left: 0;
+  top: 0;
+  justify-self: auto;
+  animation: none;
+  transform: translate(-50%, -82%) scale(var(--plant-scale, 1));
+}
+
+.crop-layout-terrace_bands.crop-mask-renderer .crop-plant,
+.crop-layout-terrace_patches.crop-mask-renderer .crop-plant,
+.crop-layout-patchwork_fields.crop-mask-renderer .crop-plant {
+  transform: translate(-50%, -82%) scale(calc(var(--plant-scale, 1) * 0.86));
+}
+
+.crop-mask-renderer.crop-tea .crop-plant {
+  transform: translate(-50%, -70%) scale(var(--plant-scale, 1));
+}
+
+.crop-mask-debug {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.crop-mask-debug polygon {
+  fill: rgba(47, 191, 113, 0.12);
+  stroke: rgba(47, 191, 113, 0.9);
+  stroke-width: 0.45;
+  stroke-dasharray: 1.2 0.9;
+  vector-effect: non-scaling-stroke;
+}
+
+.scene-plain-dry-irrigated .crop-mask-layer .channel-lines,
+.scene-desert-oasis .crop-mask-layer .channel-lines,
+.measure-irrigation .crop-mask-layer .channel-lines,
+.measure-saving-water .crop-mask-layer .channel-lines {
+  opacity: 0.42;
+}
+
+.measure-saving-water .crop-mask-layer .drip-lines,
+.scene-plain-dry-irrigated .crop-mask-layer .road-lines,
+.measure-high-standard .crop-mask-layer .road-lines,
+.scene-black-soil-plain .crop-mask-layer .machine-tracks {
+  opacity: 0.34;
+}
+
+.scene-loess-slope-terrace .crop-mask-layer .terrace-lines,
+.scene-mountain-terrace-karst .crop-mask-layer .terrace-lines,
+.scene-southeast-hills .crop-mask-layer .terrace-lines,
+.measure-terrace .crop-mask-layer .terrace-lines {
+  opacity: 0.48;
+}
+
+.scene-loess-slope-terrace .crop-mask-layer .gully-lines,
+.risk-erosion .crop-mask-layer .gully-lines,
+.erosion .crop-mask-layer .gully-lines,
+.risk-erosion .crop-mask-layer .erosion-layer,
+.erosion .crop-mask-layer .erosion-layer {
+  opacity: 0.56;
+}
+
+.scene-mountain-terrace-karst .crop-mask-layer .karst-rocks,
+.risk-karst .crop-mask-layer .karst-rocks,
+.ecology-critical .crop-mask-layer .karst-rocks {
+  opacity: 0.48;
+}
+
+.measure-straw .crop-mask-layer .straw-layer,
+.measure-mulch .crop-mask-layer .mulch-layer,
+.measure-conservation .crop-mask-layer .mulch-layer {
+  opacity: 0.45;
+}
+
+.water-high .crop-mask-layer .water-layer,
+.risk-flood .crop-mask-layer .water-layer,
+.flood .crop-mask-layer .water-layer,
+.measure-over-irrigation .crop-mask-layer .water-layer {
+  opacity: 0.56;
+}
+
+.selected-crop-rice .crop-mask-layer .water-layer {
+  opacity: 0.32;
+}
+
+.water-critical .crop-mask-layer .crack-layer,
+.risk-drought .crop-mask-layer .crack-layer,
+.drought .crop-mask-layer .crack-layer {
+  opacity: 0.62;
+}
+
+.risk-salinization .crop-mask-layer .salt-layer,
+.salinization .crop-mask-layer .salt-layer,
+.measure-over-irrigation .crop-mask-layer .salt-layer {
+  opacity: 0.68;
+}
+
+.risk-pollution .crop-mask-layer .pollution-layer,
+.measure-over-fertilizer .crop-mask-layer .pollution-layer,
+.ecology-critical .crop-mask-layer .pollution-layer {
+  opacity: 0.52;
+}
+
+.fallow .crop-mask-layer .grass-layer,
+.measure-rotation .crop-mask-layer .grass-layer {
+  opacity: 0.48;
+}
+
+.measure-return-forest .crop-mask-layer .return-forest-layer {
+  opacity: 0.64;
+}
+
+.measure-high-standard .crop-mask-layer .high-standard-grid,
+.measure-drainage .crop-mask-layer .drainage-lines,
+.measure-shelterbelt .crop-mask-layer .shelterbelt-line {
+  opacity: 0.52;
+}
+
+.farm-canvas-with-background.risk-urban .crop-mask-layer::after {
+  content: "";
+  position: absolute;
+  right: 6%;
+  bottom: 9%;
+  z-index: 3;
+  width: 18%;
+  height: 22%;
+  border: 1px solid rgba(98, 104, 104, 0.35);
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, rgba(184, 188, 186, 0.72) 0 30%, transparent 31%),
+    linear-gradient(0deg, rgba(140, 145, 144, 0.58) 0 38%, transparent 39%);
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-health-lush {
+  filter:
+    saturate(1.58)
+    contrast(1.22)
+    brightness(0.98)
+    drop-shadow(0 2px 1px rgba(24, 56, 25, 0.32));
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-health-stressed {
+  opacity: 0.9;
+  filter:
+    saturate(1.08)
+    contrast(1.22)
+    brightness(0.9)
+    sepia(0.14)
+    drop-shadow(0 2px 1px rgba(52, 45, 24, 0.28));
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-health-poor {
+  opacity: 0.76;
+  filter:
+    saturate(0.92)
+    contrast(1.24)
+    brightness(0.86)
+    sepia(0.24)
+    hue-rotate(12deg)
+    drop-shadow(0 2px 1px rgba(55, 42, 24, 0.25));
+}
+
+.plant-sprite {
+  --plant-dark: #2f6f32;
+  --plant-mid: #4f9543;
+  --plant-light: #78ae5d;
+  --plant-accent: #e8c95c;
+  position: absolute;
+  z-index: var(--plant-z, 2);
+  display: block;
+  width: 38px;
+  height: 58px;
+  overflow: visible;
+  pointer-events: none;
+  transform: translate(-50%, -100%) scale(var(--plant-scale, 0.8));
+  transform-origin: bottom center;
+  filter: drop-shadow(0 2px 1px rgba(26, 45, 22, 0.28));
+}
+
+.plant-health-lush {
+  --plant-dark: #357f35;
+  --plant-mid: #5b9f48;
+  --plant-light: #80b95f;
+}
+
+.plant-health-stressed {
+  --plant-dark: #717d35;
+  --plant-mid: #9cad58;
+  --plant-light: #c2b866;
+}
+
+.plant-health-poor {
+  --plant-dark: #6f6739;
+  --plant-mid: #9c8d4e;
+  --plant-light: #b6a85a;
+  opacity: 0.78;
+}
+
+.plant-stem,
+.bean-stem {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 5px;
+  height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--plant-dark), var(--plant-mid));
+  transform: translateX(-50%);
+}
+
+.leaf {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 9px;
+  border-radius: 100% 12% 100% 12%;
+  background: linear-gradient(90deg, var(--plant-mid), var(--plant-light));
+  transform-origin: 0 50%;
+}
+
+.leaf-a { bottom: 30px; transform: rotate(-30deg) translateX(-3px); }
+.leaf-b { bottom: 24px; transform: scaleX(-1) rotate(-28deg) translateX(3px); }
+.leaf-c { bottom: 17px; transform: rotate(-22deg) translateX(-3px); }
+.leaf-d { bottom: 10px; transform: scaleX(-1) rotate(-20deg) translateX(3px); }
+
+.corn-tassel {
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: 10px;
+  height: 13px;
+  border-radius: 999px 999px 4px 4px;
+  background: #d7b353;
+  transform: translateX(-50%);
+}
+
+.plant-crop-corn {
+  width: 40px;
+  height: 64px;
+}
+
+.plant-crop-corn .plant-stem {
+  width: 6px;
+  height: 52px;
+}
+
+.plant-crop-soybean,
+.plant-crop-potato {
+  width: 38px;
+  height: 34px;
+}
+
+.bean-stem {
+  width: 4px;
+  height: 23px;
+}
+
+.round-leaf,
+.potato-leaf {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--plant-light), var(--plant-mid) 65%, var(--plant-dark));
+}
+
+.round-leaf {
+  width: 15px;
+  height: 15px;
+}
+
+.round-leaf.leaf-a { left: 7px; bottom: 9px; transform: none; }
+.round-leaf.leaf-b { left: 17px; bottom: 17px; transform: none; }
+.round-leaf.leaf-c { left: 24px; bottom: 8px; transform: none; }
+.round-leaf.leaf-d { left: 12px; bottom: 22px; transform: none; }
+.round-leaf.leaf-e { left: 3px; bottom: 19px; transform: none; }
+
+.plant-crop-rice {
+  width: 28px;
+  height: 42px;
+}
+
+.rice-blade {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  height: 34px;
+  border-radius: 999px 999px 2px 2px;
+  background: linear-gradient(180deg, #8cbd6a, #4f9543);
+  transform-origin: bottom center;
+}
+
+.blade-a { transform: translateX(-8px) rotate(-15deg); }
+.blade-b { transform: translateX(-4px) rotate(-6deg); }
+.blade-c { transform: translateX(-1px); }
+.blade-d { transform: translateX(4px) rotate(7deg); }
+.blade-e { transform: translateX(8px) rotate(15deg); }
+
+.plant-crop-wheat {
+  width: 28px;
+  height: 46px;
+  --plant-accent: #d9b856;
+}
+
+.wheat-stem {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 39px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #d0ae52, #6f8d42);
+}
+
+.wheat-stem::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 8px;
+  height: 15px;
+  border-radius: 999px 999px 4px 4px;
+  background: var(--plant-accent);
+  transform: translateX(-50%);
+}
+
+.stem-a { left: 8px; transform: rotate(-5deg); }
+.stem-b { left: 14px; }
+.stem-c { left: 20px; transform: rotate(5deg); }
+
+.plant-crop-cotton {
+  width: 38px;
+  height: 46px;
+}
+
+.cotton-boll {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 1px solid rgba(207, 207, 188, 0.95);
+  border-radius: 50%;
+  background: #fffef4;
+  box-shadow: 0 1px 2px rgba(42, 66, 36, 0.18);
+}
+
+.boll-a { left: 9px; bottom: 27px; }
+.boll-b { left: 20px; bottom: 19px; }
+.boll-c { left: 16px; bottom: 32px; }
+
+.potato-leaf {
+  width: 18px;
+  height: 13px;
+}
+
+.potato-leaf.leaf-a { left: 4px; bottom: 5px; transform: rotate(-12deg); }
+.potato-leaf.leaf-b { left: 14px; bottom: 13px; transform: rotate(8deg); }
+.potato-leaf.leaf-c { left: 21px; bottom: 5px; transform: rotate(10deg); }
+.potato-leaf.leaf-d { left: 9px; bottom: 18px; transform: rotate(-5deg); }
+
+.plant-crop-rapeseed {
+  width: 38px;
+  height: 50px;
+  --plant-accent: #dfc331;
+}
+
+.flower {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--plant-accent);
+  box-shadow:
+    6px 1px 0 var(--plant-accent),
+    2px 6px 0 var(--plant-accent);
+}
+
+.flower-a { left: 13px; top: 5px; }
+.flower-b { left: 5px; top: 15px; transform: scale(0.84); }
+.flower-c { left: 24px; top: 18px; transform: scale(0.76); }
+
+.plant-crop-tea {
+  width: 48px;
+  height: 26px;
+}
+
+.tea-bush {
+  position: absolute;
+  bottom: 0;
+  width: 24px;
+  height: 18px;
+  border-radius: 999px 999px 10px 10px;
+  background: radial-gradient(circle at 35% 35%, var(--plant-light), var(--plant-mid) 62%, var(--plant-dark));
+}
+
+.bush-a { left: 2px; }
+.bush-b { left: 13px; bottom: 5px; }
+.bush-c { left: 25px; }
+
+.show-plant-debug .plant-sprite {
+  outline: 1px dashed rgba(235, 103, 50, 0.8);
+}
+
+.show-plant-debug .plant-sprite::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e94f37;
+  transform: translate(-50%, 50%);
+}
+
+.crop-area-editor-page {
+  display: grid;
+  gap: 20px;
+}
+
+.editor-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  border-radius: 8px;
+  background: rgba(242, 250, 239, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.editor-header h1 {
+  margin: 4px 0 8px;
+  color: #123f28;
+}
+
+.editor-header p {
+  margin: 0;
+  color: #46634f;
+  font-weight: 700;
+}
+
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  align-items: start;
+}
+
+.editor-map {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(42, 106, 63, 0.16);
+  border-radius: 8px;
+  background: #eef6ec;
+  box-shadow: var(--shadow);
+  cursor: crosshair;
+}
+
+.editor-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.editor-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.saved-polygon {
+  fill: rgba(47, 191, 113, 0.14);
+  stroke: rgba(16, 121, 64, 0.95);
+  stroke-width: 0.55;
+  vector-effect: non-scaling-stroke;
+}
+
+.draft-polygon-line {
+  fill: none;
+  stroke: rgba(246, 161, 58, 0.95);
+  stroke-width: 0.65;
+  stroke-dasharray: 1.2 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.draft-point {
+  fill: #f26d3d;
+  stroke: #fff;
+  stroke-width: 0.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.editor-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.editor-panel h2 {
+  margin: 0;
+  color: #19452c;
+}
+
+.editor-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.editor-actions button,
+.editor-panel .primary-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #2f9b61;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.editor-actions button:disabled {
+  cursor: not-allowed;
+  background: #c8d6cc;
+  color: #6c7b70;
+}
+
+.editor-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.editor-stats span {
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: #edf7ee;
+  color: #245738;
+  font-weight: 900;
+}
+
+.editor-panel textarea {
+  width: 100%;
+  min-height: 240px;
+  resize: vertical;
+  border: 1px solid rgba(42, 106, 63, 0.18);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.82rem;
+  color: #173824;
+  background: #f8fbf6;
+}
+
+@media (max-width: 980px) {
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Crop visibility tuning: stronger plants, slightly lower on the soil surface. */
+.farm-canvas-with-background .crop-zone .crop-renderer {
+  --crop-layer-y: clamp(12px, 3.4%, 24px);
+  opacity: 0.98;
+  filter:
+    saturate(1.38)
+    contrast(1.2)
+    brightness(0.94)
+    drop-shadow(0 2px 1px rgba(29, 48, 24, 0.28));
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-plain_rows {
+  transform: translateY(var(--crop-layer-y)) perspective(680px) rotateX(14deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-irrigated_rows {
+  transform: translateY(var(--crop-layer-y)) perspective(660px) rotateX(16deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-paddy_grid {
+  transform: translateY(clamp(8px, 2.4%, 18px));
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-terrace_bands {
+  transform: translateY(clamp(6px, 2%, 14px)) perspective(620px) rotateX(10deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-terrace_patches {
+  transform: translateY(clamp(6px, 2%, 14px)) perspective(620px) rotateX(8deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-layout-patchwork_fields {
+  transform: translateY(clamp(8px, 2.6%, 18px));
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-tea {
+  transform: translateY(clamp(8px, 2.6%, 18px)) rotate(-2deg);
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-health-lush {
+  filter:
+    saturate(1.58)
+    contrast(1.22)
+    brightness(0.98)
+    drop-shadow(0 2px 1px rgba(24, 56, 25, 0.32));
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-health-stressed {
+  opacity: 0.9;
+  filter:
+    saturate(1.08)
+    contrast(1.22)
+    brightness(0.9)
+    sepia(0.14)
+    drop-shadow(0 2px 1px rgba(52, 45, 24, 0.28));
+}
+
+.farm-canvas-with-background .crop-zone .crop-renderer.crop-health-poor {
+  opacity: 0.76;
+  filter:
+    saturate(0.92)
+    contrast(1.24)
+    brightness(0.86)
+    sepia(0.24)
+    hue-rotate(12deg)
+    drop-shadow(0 2px 1px rgba(55, 42, 24, 0.25));
+}
+
+.farm-canvas-with-background .crop-zone .crop-plant i,
+.farm-canvas-with-background .crop-zone .crop-plant b,
+.farm-canvas-with-background .crop-zone .crop-plant em {
+  box-shadow: 0 1px 1px rgba(18, 43, 18, 0.2);
+}
+
+.farm-canvas-with-background .crop-zone .crop-plant i {
+  filter: saturate(1.18) brightness(0.9);
+}
+
+.farm-canvas-with-background .crop-zone .crop-plant b,
+.farm-canvas-with-background .crop-zone .crop-plant em {
+  filter: saturate(1.22) brightness(0.94);
+}
+
+.farm-canvas-with-background .crop-zone .density-low .crop-plant {
+  opacity: 0.72;
+}
+
+.farm-canvas-with-background .crop-zone .density-medium .crop-plant {
+  opacity: 0.94;
+}
+
+.farm-canvas-with-background .crop-zone .density-high .crop-plant {
+  opacity: 1;
+}
+
+.farm-canvas-with-background.measure-fertilizer .crop-zone .crop-renderer,
+.farm-canvas-with-background.measure-green-agri .crop-zone .crop-renderer,
+.farm-canvas-with-background.measure-drought-crop .crop-zone .crop-renderer {
+  filter:
+    saturate(1.5)
+    contrast(1.18)
+    brightness(0.98)
+    drop-shadow(0 2px 1px rgba(24, 56, 25, 0.32));
+}
+
+.farm-canvas-with-background.measure-rotation .crop-zone .crop-renderer,
+.farm-canvas-with-background.measure-return-forest .crop-zone .crop-renderer {
+  opacity: 0.52;
+}
+
+/* Final PNG-scene overrides: keep the prepared field images clean and make crops projection-readable. */
+.farm-canvas-with-background .farm-background {
+  z-index: 1;
+}
+
+.farm-canvas-with-background .farm-land-layers {
+  z-index: 2;
+}
+
+.farm-canvas-with-background .crop-mask-layer .zone-effects {
+  z-index: 2;
+}
+
+.farm-canvas-with-background .crop-mask-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, #be804c, #a16134);
+}
+
+.farm-canvas-with-background.scene-black-soil-plain .crop-mask-layer::before {
+  background: linear-gradient(180deg, #483627, #2b221b);
+}
+
+.farm-canvas-with-background.scene-paddy-plain .crop-mask-layer::before {
+  background: linear-gradient(180deg, #79b676, #5a9a60);
+}
+
+.farm-canvas-with-background.scene-loess-slope-terrace .crop-mask-layer::before {
+  background: linear-gradient(180deg, #cd9858, #ad6f3a);
+}
+
+.farm-canvas-with-background.scene-mountain-terrace-karst .crop-mask-layer::before {
+  background: linear-gradient(180deg, #a47b4b, #805739);
+}
+
+.farm-canvas-with-background.scene-desert-oasis .crop-mask-layer::before {
+  background: linear-gradient(180deg, #83b45b, #588d47);
+}
+
+.farm-canvas-with-background.scene-basin-patchwork .crop-mask-layer::before {
+  background: linear-gradient(180deg, #a3814d, #718f4e);
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer {
+  z-index: 3;
+  opacity: 1 !important;
+  background: none !important;
+  filter:
+    saturate(1.72)
+    contrast(1.34)
+    brightness(1.06)
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.28)) !important;
+}
+
+.farm-canvas-with-background .farm-label-layer {
+  z-index: 4;
+}
+
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-plain_rows,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-irrigated_rows,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-paddy_grid,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-terrace_bands,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-terrace_patches,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-layout-patchwork_fields,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-potato,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-rice {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.farm-canvas-with-background .crop-mask-layer .channel-lines,
+.farm-canvas-with-background .crop-mask-layer .drip-lines,
+.farm-canvas-with-background .crop-mask-layer .road-lines,
+.farm-canvas-with-background .crop-mask-layer .machine-tracks,
+.farm-canvas-with-background .crop-mask-layer .terrace-lines,
+.farm-canvas-with-background .crop-mask-layer .gully-lines,
+.farm-canvas-with-background .crop-mask-layer .karst-rocks,
+.farm-canvas-with-background .crop-mask-layer .high-standard-grid,
+.farm-canvas-with-background .crop-mask-layer .drainage-lines,
+.farm-canvas-with-background .crop-mask-layer .shelterbelt-line,
+.farm-canvas-with-background .crop-mask-layer .crack-layer {
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+.farm-canvas-with-background .crop-mask-debug {
+  display: none;
+}
+
+.farm-canvas-with-background .plant-sprite {
+  --plant-dark: #2e7d32;
+  --plant-mid: #43a047;
+  --plant-light: #66bb6a;
+  opacity: 1 !important;
+  z-index: var(--plant-z, 3);
+  filter:
+    saturate(1.2)
+    contrast(1.12)
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.farm-canvas-with-background .plant-health-lush {
+  --plant-dark: #2e7d32;
+  --plant-mid: #43a047;
+  --plant-light: #66bb6a;
+}
+
+.farm-canvas-with-background .plant-health-normal {
+  --plant-dark: #2e7d32;
+  --plant-mid: #43a047;
+  --plant-light: #66bb6a;
+}
+
+.farm-canvas-with-background .plant-health-stressed {
+  --plant-dark: #647f2e;
+  --plant-mid: #8fa33d;
+  --plant-light: #b6a85a;
+  opacity: 1 !important;
+}
+
+.farm-canvas-with-background .plant-health-poor {
+  --plant-dark: #5f642d;
+  --plant-mid: #7b8239;
+  --plant-light: #a79a4a;
+  opacity: 1 !important;
+}
+
+.farm-canvas-with-background .plant-stem,
+.farm-canvas-with-background .bean-stem {
+  background: linear-gradient(90deg, #245f27, var(--plant-dark) 44%, var(--plant-mid)) !important;
+  box-shadow: 0 0 0 0.5px rgba(20, 65, 25, 0.28);
+}
+
+.farm-canvas-with-background .leaf {
+  background: linear-gradient(90deg, var(--plant-mid), var(--plant-light)) !important;
+  box-shadow: 0 1px 1px rgba(19, 66, 27, 0.22);
+}
+
+.farm-canvas-with-background .round-leaf,
+.farm-canvas-with-background .potato-leaf,
+.farm-canvas-with-background .tea-bush {
+  background: radial-gradient(circle at 35% 30%, var(--plant-light), var(--plant-mid) 58%, var(--plant-dark)) !important;
+  box-shadow: 0 1px 1px rgba(19, 66, 27, 0.24);
+}
+
+.farm-canvas-with-background .rice-blade {
+  background: linear-gradient(180deg, #7bc96f, #43a047 72%, #2e7d32) !important;
+  box-shadow: 0 1px 1px rgba(19, 66, 27, 0.2);
+}
+
+.farm-canvas-with-background .wheat-stem {
+  background: linear-gradient(180deg, #d8b74f, #6f8d42 55%, #3f7d35) !important;
+}
+
+.farm-canvas-with-background .cotton-boll {
+  background: #fffef4 !important;
+  box-shadow: 0 1px 2px rgba(31, 55, 28, 0.3);
+}
+
+.farm-canvas-with-background .flower {
+  background: #f0cf2d !important;
+  box-shadow:
+    6px 1px 0 #f0cf2d,
+    2px 6px 0 #f0cf2d,
+    0 1px 1px rgba(65, 66, 22, 0.22);
+}
+
+.farm-canvas-with-background.measure-rotation .crop-mask-layer .crop-mask-renderer,
+.farm-canvas-with-background.measure-return-forest .crop-mask-layer .crop-mask-renderer,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-health-stressed,
+.farm-canvas-with-background .crop-mask-layer .crop-mask-renderer.crop-health-poor {
+  opacity: 1 !important;
+}
