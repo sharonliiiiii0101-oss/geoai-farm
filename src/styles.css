@@ -3223,16 +3223,141 @@ h3 {
   font-weight: 800;
 }
 
-.operation-review {
+.operation-review-card {
+  grid-column: 1 / -1;
+}
+
+.operation-section {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.operation-section h3 {
+  margin: 0;
+  color: #234d33;
+  font-size: 1.02rem;
+}
+
+.operation-section p {
+  margin: 0;
+  color: #345841;
+  font-weight: 700;
+  line-height: 1.8;
+}
+
+.operation-overview,
+.operation-evaluation {
   padding: 16px 18px;
   border-radius: 8px;
-  color: #284c36;
-  background: linear-gradient(135deg, rgba(234, 247, 226, 0.92), rgba(241, 250, 238, 0.78));
+  background: linear-gradient(135deg, rgba(234, 247, 226, 0.94), rgba(241, 250, 238, 0.82));
   border: 1px solid rgba(75, 140, 85, 0.14);
-  font-size: 1rem;
+}
+
+.operation-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f8fbf1;
+  border: 1px dashed rgba(75, 140, 85, 0.28);
+}
+
+.operation-keywords strong {
+  color: #235137;
+  font-weight: 900;
+}
+
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-list span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #21583a;
+  background: rgba(98, 174, 98, 0.16);
+  border: 1px solid rgba(57, 131, 76, 0.16);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.year-review-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.year-review-card {
+  display: grid;
+  gap: 10px;
+  min-height: 190px;
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(67, 133, 78, 0.16);
+  box-shadow: 0 10px 22px rgba(44, 92, 54, 0.08);
+}
+
+.year-review-head {
+  display: grid;
+  gap: 5px;
+}
+
+.year-review-head strong {
+  color: #17452c;
+  font-size: 1.05rem;
+}
+
+.year-review-head span {
+  color: #5a705f;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.year-review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.year-review-meta span {
+  padding: 4px 7px;
+  border-radius: 7px;
+  color: #245039;
+  background: #edf7e8;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.year-review-card p {
+  margin: 0;
+  color: #355842;
+  font-size: 0.9rem;
   font-weight: 700;
-  line-height: 1.9;
-  text-align: justify;
+  line-height: 1.65;
+}
+
+@media (max-width: 1280px) {
+  .year-review-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .year-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operation-keywords {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 .report-table {

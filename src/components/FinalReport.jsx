@@ -45,6 +45,56 @@ const eventExplanations = {
   城市建设占用耕地: "建设占地会压缩耕地空间，提醒我们保护优质耕地资源"
 };
 
+const eventShortEffects = {
+  正常年份: "自然条件较平稳，措施效果更容易体现",
+  干旱: "干旱限制水分供给，容易造成减产压力",
+  洪涝: "洪涝会影响根系呼吸，排水能力成为关键",
+  暴雨冲刷: "暴雨冲刷会带走表土，增加水土流失风险",
+  风沙: "风沙会损伤作物并带走表土，耕地防护很重要",
+  低温冻害: "低温冻害会影响作物生长期，使产量波动",
+  土壤盐渍化风险上升: "盐分累积会抑制作物吸水，灌排管理很关键",
+  黑土退化风险上升: "黑土退化会削弱长期地力，需要补充有机质",
+  城市建设占用耕地: "建设占地会压缩耕地空间，提醒保护优质耕地"
+};
+
+const keywordByMeasure = {
+  建设高标准农田: "高标准农田",
+  保护性耕作: "保护性耕作",
+  秸秆还田: "地力恢复",
+  种植防护林: "防风固沙",
+  节水灌溉: "节水灌溉",
+  修筑梯田: "水土保持",
+  合理灌溉: "水分管理",
+  合理施肥: "合理施肥",
+  建设排水渠: "防洪排涝",
+  轮作休耕: "轮作休耕",
+  退耕还林还草: "生态恢复",
+  覆盖种植: "覆盖保土",
+  绿色农业: "绿色农业"
+};
+
+const keywordByEvent = {
+  干旱: "抗旱保产",
+  洪涝: "防洪排涝",
+  暴雨冲刷: "水土保持",
+  风沙: "防风固沙",
+  低温冻害: "气候风险",
+  土壤盐渍化风险上升: "盐渍化防治",
+  黑土退化风险上升: "黑土保护",
+  城市建设占用耕地: "耕地保护"
+};
+
+const keywordByRegion = {
+  huabei: ["节水农业", "灌溉管理"],
+  songnen: ["黑土保护", "地力维护"],
+  yangtze_plain: ["水田农业", "防洪排涝"],
+  loess_plateau: ["水土保持", "坡耕地治理"],
+  yungui_plateau: ["梯田农业", "石漠化防治"],
+  xinjiang_oasis: ["绿洲农业", "水资源管理"],
+  sichuan_basin: ["田块整治", "复合农业"],
+  southeast_hills: ["丘陵农业", "水土保持"]
+};
+
 function describeCropPattern(records) {
   const crops = records.map((record) => getRecordValue(record, ["crop", "cropName"], "未记录作物")).filter(Boolean);
   const uniqueCrops = Array.from(new Set(crops));
@@ -174,43 +224,157 @@ function describeQualityChange(record, previousRecord) {
   return quality.length ? `同时，${quality.join("，")}。` : "";
 }
 
+function getTopItems(items, maxCount = 4) {
+  const counts = items.reduce((result, item) => {
+    if (!item) return result;
+    result.set(item, (result.get(item) ?? 0) + 1);
+    return result;
+  }, new Map());
+
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, maxCount)
+    .map(([item]) => item);
+}
+
+function describeMeasureFocus(measures) {
+  const topMeasures = getTopItems(measures, 4);
+  return topMeasures.length ? topMeasures.join("、") : "基础耕作观察";
+}
+
+function describeValueTrend(records, field) {
+  const values = records.map((record) => Number(getRecordValue(record, [field], 0)));
+  if (values.length < 2) return "记录不足";
+
+  const first = values[0];
+  const last = values[values.length - 1];
+  const range = Math.max(...values) - Math.min(...values);
+
+  if (last - first >= 8 && range <= 25) return "总体改善";
+  if (last - first >= 8) return "波动中提升";
+  if (first - last >= 8) return "有所下降";
+  if (range >= 18) return "波动明显";
+  return "基本稳定";
+}
+
+function describeYieldLabel(record, previousRecord) {
+  const currentYield = Number(getRecordValue(record, ["yield", "production"], 0));
+  if (!previousRecord) return `产量为${currentYield}`;
+
+  const previousYield = Number(getRecordValue(previousRecord, ["yield", "production"], currentYield));
+  const delta = currentYield - previousYield;
+
+  if (delta > 5) return `产量升至${currentYield}`;
+  if (delta < -5) return `产量降至${currentYield}`;
+  return `产量稳定在${currentYield}左右`;
+}
+
+function describeBriefQuality(record, previousRecord) {
+  if (!previousRecord) return "";
+
+  const fertilityDelta = Number(getRecordValue(record, ["fertility"], 0)) - Number(getRecordValue(previousRecord, ["fertility"], 0));
+  const ecologyDelta = Number(getRecordValue(record, ["ecology"], 0)) - Number(getRecordValue(previousRecord, ["ecology"], 0));
+
+  if (fertilityDelta > 2 && ecologyDelta > 2) return "，地力和生态同步改善";
+  if (fertilityDelta > 2) return "，土壤肥力有所恢复";
+  if (ecologyDelta > 2) return "，生态健康有所改善";
+  if (fertilityDelta < -2 || ecologyDelta < -2) return "，耕地质量承受一定压力";
+  return "";
+}
+
+function buildYearReviewCards(records) {
+  const explainedMeasures = new Set();
+
+  return records.map((record, index) => {
+    const year = getRecordValue(record, ["year"], index + 1);
+    const crop = getRecordValue(record, ["crop", "cropName"], "未记录作物");
+    const event = getRecordValue(record, ["event", "eventName"], "正常年份") || "正常年份";
+    const measures = getRecordValue(record, ["measures", "actions"], []);
+    const freshMeasure = measures.find((measure) => !explainedMeasures.has(measure));
+    const repeatedMeasures = measures.length > 0 && !freshMeasure;
+    const eventEffect = eventShortEffects[event] ?? "年度事件改变了作物生长条件";
+    const yieldText = describeYieldLabel(record, records[index - 1]);
+    const qualityText = describeBriefQuality(record, records[index - 1]);
+    let detail = "";
+
+    if (!measures.length) {
+      detail = `${eventEffect}。该年未选择明显经营措施，耕地表现更多受自然条件和原有地力影响，${yieldText}${qualityText}。`;
+    } else if (repeatedMeasures) {
+      detail = `${eventEffect}。继续采用${measures.slice(0, 3).join("、")}，延续前期治理思路，${yieldText}${qualityText}。`;
+    } else {
+      const explanation = measureExplanations[freshMeasure] ?? "改善耕地利用条件";
+      detail = `${eventEffect}。${freshMeasure}有助于${explanation}，配合${measures.slice(0, 3).join("、")}，${yieldText}${qualityText}。`;
+    }
+
+    measures.forEach((measure) => explainedMeasures.add(measure));
+
+    return {
+      year,
+      crop,
+      event,
+      measures: formatMeasures(record),
+      yield: getRecordValue(record, ["yield", "production"], 0),
+      fertility: getRecordValue(record, ["fertility"], 0),
+      ecology: getRecordValue(record, ["ecology"], 0),
+      detail
+    };
+  });
+}
+
+function buildOperationKeywords(region, records) {
+  const measures = records.flatMap((record) => getRecordValue(record, ["measures", "actions"], []));
+  const events = records.map((record) => getRecordValue(record, ["event", "eventName"], "正常年份"));
+  const keywords = [
+    ...(keywordByRegion[region.id] ?? []),
+    ...getTopItems(measures.map((measure) => keywordByMeasure[measure]), 4),
+    ...getTopItems(events.map((event) => keywordByEvent[event]), 3)
+  ];
+
+  const yieldTrend = describeValueTrend(records, "yield");
+  const fertilityTrend = describeValueTrend(records, "fertility");
+  const ecologyTrend = describeValueTrend(records, "ecology");
+
+  if (yieldTrend.includes("波动")) keywords.push("产量波动");
+  if (yieldTrend.includes("提升") || yieldTrend.includes("改善")) keywords.push("稳产增产");
+  if (fertilityTrend.includes("改善") || fertilityTrend.includes("提升")) keywords.push("地力改善");
+  if (ecologyTrend.includes("改善") || ecologyTrend.includes("提升")) keywords.push("生态保护");
+
+  return Array.from(new Set(keywords.filter(Boolean))).slice(0, 6);
+}
+
 function buildOperationReview(region, records) {
   if (!records.length) {
-    return "本次经营还没有形成完整年度记录，暂时无法生成经营过程回顾。";
+    return {
+      overview: ["本次经营还没有形成完整年度记录，暂时无法生成经营过程回顾。"],
+      keywords: ["等待记录"],
+      years: [],
+      evaluation: "完成至少一年经营后，系统会根据年度记录生成学习报告。"
+    };
   }
 
   const cropIntro = describeCropPattern(records);
   const usedMeasures = Array.from(new Set(records.flatMap((record) => getRecordValue(record, ["measures", "actions"], []))));
-  const strategyFocus = usedMeasures.length
-    ? `主要围绕${usedMeasures.slice(0, 5).join("、")}等措施展开，体现了通过人类经营改善耕地条件的思路`
-    : "经营措施相对较少，耕地变化更多依赖自然条件和原有地力";
-  const annualReview = records.map((record, index) => {
-    const year = getRecordValue(record, ["year"], index + 1);
-    const event = getRecordValue(record, ["event", "eventName"], "正常年份") || "正常年份";
-    const measures = getRecordValue(record, ["measures", "actions"], []);
-    const measureText = formatMeasures(record);
-    const eventLead = event === "正常年份" ? `第${year}年为正常年份` : `第${year}年遇到${event}`;
-    const actionPhrase = measures.length ? `你采取${measureText}` : "该年未选择明显经营措施";
-    const eventText = eventExplanations[event] ?? "该事件改变了作物生长和耕地质量条件";
-    const measureExplanation = explainMeasures(measures);
-    const yieldChange = describeYieldChange(record, records[index - 1], event, measures);
-    const qualityChange = describeQualityChange(record, records[index - 1]);
-
-    return `${eventLead}，${eventText}。${actionPhrase}，${measureExplanation}，因此${yieldChange}。${qualityChange}`;
-  }).join("");
-
-  const yieldTrend = describeTrend(records, "yield", "产量");
-  const fertilityTrend = describeTrend(records, "fertility", "土壤肥力");
-  const ecologyTrend = describeTrend(records, "ecology", "生态健康");
+  const measureFocus = describeMeasureFocus(usedMeasures);
+  const yieldTrend = describeValueTrend(records, "yield");
+  const fertilityTrend = describeValueTrend(records, "fertility");
+  const ecologyTrend = describeValueTrend(records, "ecology");
   const finalRecord = records[records.length - 1];
   const finalSecurity = getRecordValue(finalRecord, ["foodSecurity"], null);
-  const securityText = finalSecurity === null ? "" : `最终粮食安全贡献达到${finalSecurity}，`;
+  const securityText = finalSecurity === null ? "" : `最终粮食安全贡献为${finalSecurity}。`;
   const positiveEnding =
     Number(getRecordValue(finalRecord, ["fertility"], 0)) >= 60 && Number(getRecordValue(finalRecord, ["ecology"], 0)) >= 60
       ? "总体来看，你的经营策略能够兼顾粮食产出和耕地质量，体现了一定的因地制宜意识和耕地保护意识。"
       : "总体来看，你的经营策略已经开始关注区域差异，但仍需要进一步加强耕地保护和长期地力恢复。";
 
-  return `在${region.name}五年的耕地经营过程中，${cropIntro}，并且${strategyFocus}。${annualReview}综合五年记录来看，${yieldTrend}，${fertilityTrend}，${ecologyTrend}，${securityText}说明粮食安全不是单纯由作物产量决定，而是受到自然条件、耕地质量和人类经营措施共同影响。${positiveEnding}`;
+  return {
+    overview: [
+      `五年经营中，你在${region.name}开展模拟经营，${cropIntro}。经营重点集中在${measureFocus}，体现了围绕区域自然条件调整农业生产方式的思路。`,
+      `整体来看，产量${yieldTrend}，土壤肥力${fertilityTrend}，生态健康${ecologyTrend}。${securityText}`
+    ],
+    keywords: buildOperationKeywords(region, records),
+    years: buildYearReviewCards(records),
+    evaluation: `粮食安全不仅取决于作物产量，还受到自然条件、耕地质量和人类经营措施的共同影响。因地制宜选择作物和治理措施，合理利用水土资源，是稳定粮食生产的重要基础。${positiveEnding}`
+  };
 }
 
 function MiniChart({ label, records, field }) {
@@ -314,9 +478,49 @@ export default function FinalReport({ region, farmState, onRestart, onChooseRegi
           </div>
         </article>
 
-        <article className="report-summary">
+        <article className="report-summary operation-review-card">
           <h2>经营过程回顾</h2>
-          <p className="operation-review">{operationReview}</p>
+          <div className="operation-section operation-overview">
+            <h3>五年经营总览</h3>
+            {operationReview.overview.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="operation-keywords" aria-label="经营关键词">
+            <strong>经营关键词</strong>
+            <div className="keyword-list">
+              {operationReview.keywords.map((keyword) => (
+                <span key={keyword}>{keyword}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="operation-section">
+            <h3>年度关键回顾</h3>
+            <div className="year-review-grid">
+              {operationReview.years.map((yearRecord) => (
+                <section className="year-review-card" key={yearRecord.year}>
+                  <div className="year-review-head">
+                    <strong>第{yearRecord.year}年</strong>
+                    <span>事件：{yearRecord.event}</span>
+                  </div>
+                  <div className="year-review-meta">
+                    <span>作物：{yearRecord.crop}</span>
+                    <span>产量：{yearRecord.yield}</span>
+                    <span>肥力：{yearRecord.fertility}</span>
+                    <span>生态：{yearRecord.ecology}</span>
+                  </div>
+                  <p>{yearRecord.detail}</p>
+                </section>
+              ))}
+            </div>
+          </div>
+
+          <div className="operation-section operation-evaluation">
+            <h3>综合评价</h3>
+            <p>{operationReview.evaluation}</p>
+          </div>
         </article>
 
         <article className="report-summary">
