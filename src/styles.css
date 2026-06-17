@@ -3192,16 +3192,47 @@ h3 {
   text-align: center;
 }
 
-.chart-bar span {
+.chart-fill {
   display: block;
+  position: relative;
   min-height: 8%;
   border-radius: 8px 8px 3px 3px;
   background: linear-gradient(180deg, #4da66d, #7bbd63);
 }
 
+.chart-value {
+  position: absolute;
+  left: 50%;
+  top: -24px;
+  transform: translateX(-50%);
+  min-width: 30px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  color: #1f5134;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(60, 122, 78, 0.18);
+  box-shadow: 0 5px 12px rgba(40, 99, 58, 0.12);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .chart-bar small {
   color: #55715b;
   font-weight: 800;
+}
+
+.operation-review {
+  padding: 16px 18px;
+  border-radius: 8px;
+  color: #284c36;
+  background: linear-gradient(135deg, rgba(234, 247, 226, 0.92), rgba(241, 250, 238, 0.78));
+  border: 1px solid rgba(75, 140, 85, 0.14);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.9;
+  text-align: justify;
 }
 
 .report-table {
