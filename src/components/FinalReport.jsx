@@ -8,10 +8,42 @@ function getRecordValue(record, keys, fallback = "") {
 function formatMeasures(record) {
   const measures = getRecordValue(record, ["measures", "actions"], []);
   if (!Array.isArray(measures) || measures.length === 0) {
-    return "该年未选择明显经营措施";
+    return "未选择明显经营措施";
   }
   return measures.join("、");
 }
+
+const measureExplanations = {
+  建设高标准农田: "改善田块条件，提高耕作效率和抗灾能力",
+  保护性耕作: "减少土壤扰动，有助于保持土壤肥力",
+  秸秆还田: "增加土壤有机质，改善土壤肥力",
+  种植防护林: "减弱风沙影响，保护耕地生态",
+  节水灌溉: "提高水资源利用效率，缓解干旱影响",
+  修筑梯田: "减轻坡地水土流失，改善坡耕地利用条件",
+  合理灌溉: "改善作物水分条件，减轻水分不足带来的减产风险",
+  合理施肥: "补充作物生长所需养分，维持土壤肥力",
+  建设排水渠: "提升排水能力，降低洪涝和渍害风险",
+  轮作休耕: "缓解连续种植压力，帮助地力恢复",
+  退耕还林还草: "降低坡地开发强度，促进生态恢复",
+  覆盖种植: "减少地表裸露，减轻水土流失和蒸发",
+  绿色农业: "减少农业污染压力，提升耕地生态质量",
+  耐旱作物: "提高作物对水分不足环境的适应能力",
+  正常耕作: "维持基本农业生产，但对耕地质量改善作用有限",
+  过量灌溉: "短期改善水分，但可能增加盐渍化或水资源压力",
+  过量施肥: "短期可能刺激产量，但容易造成肥力失衡和生态压力"
+};
+
+const eventExplanations = {
+  正常年份: "自然条件相对平稳，经营措施的作用更容易体现",
+  干旱: "水分不足会限制作物生长，灌溉效率和耐旱能力变得更重要",
+  洪涝: "过多水分会影响根系呼吸，排水和田块整理尤为关键",
+  暴雨冲刷: "强降水容易带走表层土壤，坡地地区尤其需要加强水土保持",
+  风沙: "风力侵蚀会损伤作物并带走表土，防护林和覆盖措施有保护作用",
+  低温冻害: "热量条件不足会影响作物生长周期，使产量出现波动",
+  土壤盐渍化风险上升: "盐分累积会抑制作物吸水，合理灌排和节水管理十分重要",
+  黑土退化风险上升: "黑土肥力下降会削弱长期生产能力，需要补充有机质并减少过度扰动",
+  城市建设占用耕地: "建设占地会压缩耕地空间，提醒我们保护优质耕地资源"
+};
 
 function describeCropPattern(records) {
   const crops = records.map((record) => getRecordValue(record, ["crop", "cropName"], "未记录作物")).filter(Boolean);
@@ -22,10 +54,23 @@ function describeCropPattern(records) {
   }
 
   if (uniqueCrops.length === 1) {
-    return `五年中你主要选择种植${uniqueCrops[0]}`;
+    return `五年中你持续种植${uniqueCrops[0]}，经营重点更集中在稳定该作物产量和维护耕地质量上`;
   }
 
-  return `五年中你的作物选择经历了${crops.map((crop, index) => `第${index + 1}年${crop}`).join("、")}的变化`;
+  const segments = crops.reduce((result, crop, index) => {
+    const last = result[result.length - 1];
+    if (last && last.crop === crop) {
+      last.end = index + 1;
+    } else {
+      result.push({ crop, start: index + 1, end: index + 1 });
+    }
+    return result;
+  }, []);
+  const cropPath = segments
+    .map((segment) => (segment.start === segment.end ? `第${segment.start}年种植${segment.crop}` : `第${segment.start}至${segment.end}年种植${segment.crop}`))
+    .join("，");
+
+  return `五年中你根据经营需要调整过作物结构，${cropPath}`;
 }
 
 function describeTrend(records, field, label) {
@@ -72,20 +117,86 @@ function describeAnnualImpact(record, previousRecord) {
   return `${changes.join("，")}，当年产量为${yieldValue}`;
 }
 
+function explainMeasures(measures) {
+  if (!Array.isArray(measures) || measures.length === 0) {
+    return "由于没有明显经营措施，耕地变化更多受自然事件和原有地力条件影响";
+  }
+
+  const explanations = measures
+    .map((measure) => {
+      const explanation = measureExplanations[measure];
+      return explanation ? `${measure}可以${explanation}` : "";
+    })
+    .filter(Boolean)
+    .slice(0, 3);
+
+  return explanations.length ? explanations.join("；") : `${measures.join("、")}共同影响了当年的耕地质量和作物生长`;
+}
+
+function describeYieldChange(record, previousRecord, event, measures) {
+  const yieldValue = Number(getRecordValue(record, ["yield", "production"], 0));
+  if (!previousRecord) {
+    return `产量达到${yieldValue}，为后续观察经营成效提供了起点`;
+  }
+
+  const previousYield = Number(getRecordValue(previousRecord, ["yield", "production"], yieldValue));
+  const delta = yieldValue - previousYield;
+  const eventReason = eventExplanations[event] ?? "该年度事件改变了作物生长条件";
+  const hasProtectiveMeasure = measures.some((measure) =>
+    ["建设高标准农田", "保护性耕作", "秸秆还田", "种植防护林", "节水灌溉", "修筑梯田", "建设排水渠", "合理灌溉", "合理施肥", "轮作休耕"].includes(measure)
+  );
+
+  if (delta > 5) {
+    return `产量由${previousYield}提高到${yieldValue}，说明在${event}背景下，${hasProtectiveMeasure ? "经营措施对改善作物生长条件发挥了积极作用" : "自然条件或作物适应性对产量恢复起到一定作用"}`;
+  }
+
+  if (delta < -5) {
+    return `产量由${previousYield}下降到${yieldValue}，主要与${event}带来的压力有关，${eventReason}，也提示后续需要更有针对性地保护耕地`;
+  }
+
+  return `产量维持在${yieldValue}左右，说明${event}影响下耕地生产状态总体较稳定，但仍需要继续关注肥力、水分和生态健康`;
+}
+
+function describeQualityChange(record, previousRecord) {
+  if (!previousRecord) {
+    return "";
+  }
+
+  const fertilityDelta = Number(getRecordValue(record, ["fertility"], 0)) - Number(getRecordValue(previousRecord, ["fertility"], 0));
+  const ecologyDelta = Number(getRecordValue(record, ["ecology"], 0)) - Number(getRecordValue(previousRecord, ["ecology"], 0));
+  const quality = [];
+
+  if (fertilityDelta > 2) quality.push("土壤肥力有所恢复");
+  if (fertilityDelta < -2) quality.push("土壤肥力被进一步消耗");
+  if (ecologyDelta > 2) quality.push("生态健康得到改善");
+  if (ecologyDelta < -2) quality.push("生态健康承受压力");
+
+  return quality.length ? `同时，${quality.join("，")}。` : "";
+}
+
 function buildOperationReview(region, records) {
   if (!records.length) {
     return "本次经营还没有形成完整年度记录，暂时无法生成经营过程回顾。";
   }
 
   const cropIntro = describeCropPattern(records);
+  const usedMeasures = Array.from(new Set(records.flatMap((record) => getRecordValue(record, ["measures", "actions"], []))));
+  const strategyFocus = usedMeasures.length
+    ? `主要围绕${usedMeasures.slice(0, 5).join("、")}等措施展开，体现了通过人类经营改善耕地条件的思路`
+    : "经营措施相对较少，耕地变化更多依赖自然条件和原有地力";
   const annualReview = records.map((record, index) => {
     const year = getRecordValue(record, ["year"], index + 1);
-    const crop = getRecordValue(record, ["crop", "cropName"], "未记录作物");
     const event = getRecordValue(record, ["event", "eventName"], "正常年份") || "正常年份";
-    const measures = formatMeasures(record);
-    const impact = describeAnnualImpact(record, records[index - 1]);
+    const measures = getRecordValue(record, ["measures", "actions"], []);
+    const measureText = formatMeasures(record);
+    const eventLead = event === "正常年份" ? `第${year}年为正常年份` : `第${year}年遇到${event}`;
+    const actionPhrase = measures.length ? `你采取${measureText}` : "该年未选择明显经营措施";
+    const eventText = eventExplanations[event] ?? "该事件改变了作物生长和耕地质量条件";
+    const measureExplanation = explainMeasures(measures);
+    const yieldChange = describeYieldChange(record, records[index - 1], event, measures);
+    const qualityChange = describeQualityChange(record, records[index - 1]);
 
-    return `第${year}年，你选择种植${crop}，年度事件为${event}，采取的经营措施是${measures}，${impact}。`;
+    return `${eventLead}，${eventText}。${actionPhrase}，${measureExplanation}，因此${yieldChange}。${qualityChange}`;
   }).join("");
 
   const yieldTrend = describeTrend(records, "yield", "产量");
@@ -99,7 +210,7 @@ function buildOperationReview(region, records) {
       ? "总体来看，你的经营策略能够兼顾粮食产出和耕地质量，体现了一定的因地制宜意识和耕地保护意识。"
       : "总体来看，你的经营策略已经开始关注区域差异，但仍需要进一步加强耕地保护和长期地力恢复。";
 
-  return `在${region.name}五年的耕地经营过程中，${cropIntro}。${annualReview}综合五年记录来看，${yieldTrend}，${fertilityTrend}，${ecologyTrend}，${securityText}说明耕地质量、自然事件和经营措施共同影响粮食安全。${positiveEnding}`;
+  return `在${region.name}五年的耕地经营过程中，${cropIntro}，并且${strategyFocus}。${annualReview}综合五年记录来看，${yieldTrend}，${fertilityTrend}，${ecologyTrend}，${securityText}说明粮食安全不是单纯由作物产量决定，而是受到自然条件、耕地质量和人类经营措施共同影响。${positiveEnding}`;
 }
 
 function MiniChart({ label, records, field }) {
