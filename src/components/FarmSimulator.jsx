@@ -1,14 +1,11 @@
 import { useState } from "react";
 import ActionPanel from "./ActionPanel.jsx";
 import AIDiagnosis from "./AIDiagnosis.jsx";
-import CropAreaEditor from "./CropAreaEditor.jsx";
 import FarmCanvas from "./FarmCanvas.jsx";
 import MetricBar from "./MetricBar.jsx";
 import { crops, intensityOptions } from "../data/farmlandData.js";
 import { buildDiagnosis, simulateNextYear } from "../utils/simulation.js";
 import { validateMeasureSelection } from "../utils/measureSelectionRules.js";
-
-const ENABLE_CROP_AREA_EDITOR = true;
 
 export default function FarmSimulator({ region, farmState, setFarmState, onBack, onFinish }) {
   const [selection, setSelection] = useState({
@@ -17,7 +14,6 @@ export default function FarmSimulator({ region, farmState, setFarmState, onBack,
     measureIds: ["normal"]
   });
   const [selectionWarning, setSelectionWarning] = useState("");
-  const [showCropAreaEditor, setShowCropAreaEditor] = useState(false);
 
   const diagnosis = buildDiagnosis(region, farmState, selection);
   const currentCrop = crops.find((crop) => crop.id === selection.cropId);
@@ -37,10 +33,6 @@ export default function FarmSimulator({ region, farmState, setFarmState, onBack,
     }
   }
 
-  if (showCropAreaEditor) {
-    return <CropAreaEditor region={region} onClose={() => setShowCropAreaEditor(false)} />;
-  }
-
   return (
     <section className="simulator-page">
       <header className="sim-header">
@@ -49,9 +41,6 @@ export default function FarmSimulator({ region, farmState, setFarmState, onBack,
           <h1>{region.name} · 第 {farmState.year} 年经营</h1>
         </div>
         <div className="header-actions">
-          {ENABLE_CROP_AREA_EDITOR && (
-            <button className="ghost-button" onClick={() => setShowCropAreaEditor(true)}>编辑种植区域</button>
-          )}
           <button className="ghost-button" onClick={onBack}>查看档案</button>
           <button className="ghost-button" onClick={onFinish}>结束经营</button>
         </div>
